@@ -1,11 +1,11 @@
-all: precomputed-cloth.pdf
+all: drawafriend.pdf
 	
-precomputed-cloth.pdf: precomputed-cloth.bbl *.tex
-	pdflatex precomputed-cloth.tex 
+drawafriend.pdf: drawafriend.bbl *.tex
+	pdflatex drawafriend.tex 
 
-precomputed-cloth.bbl: precomputed-cloth.bib
-	pdflatex precomputed-cloth.tex 
-	bibtex precomputed-cloth
+drawafriend.bbl: drawafriend.bib
+	pdflatex drawafriend.tex 
+	bibtex drawafriend
 
 # pdf: paper.pdf
 # 
