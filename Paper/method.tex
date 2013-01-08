@@ -1,28 +1,2 @@
-\section{Secondary Motion Graphs}
+\section{AutoMagically Correcting}
 
-Like de Aguilar et al.~\shortcite{deAguiar:2010}, we are interested in capturing the dynamics of cloth motion induced by a character moving within a finite motion graph.
-
-
-\subsection{Definition}
-
-\begin{itemize}
-\item for each primary state we have one or more secondary state
-\item for each primary transition, we have one secondary transition
-\end{itemize}
-
-\subsection{Endless Exploration}
-
-\begin{itemize}
-\item goal: minimize (in some sense) the physics error
-\item goal: to have in principle a working graph at each point in time
-\item goal: emphasize that this can be done endlessly, with PCA computed as we go along.
-\item depth first search simulation
-\item post processing:blending + PCA
-\end{itemize}
-
-\subsection{Dynamical Bifurcations and Convergence}
-
-\begin{itemize}
-\item expected convergence
-\item detecting bifurcations
-\end{itemize}
