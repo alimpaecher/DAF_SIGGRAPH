@@ -1,0 +1,129 @@
+%----------------------------------------------------------------------------
+%
+% Title goes here 
+% Authors: Doyub Kim, Woojong Koh, Rahul Narain, Kayvon Fatahalian, Adrien Treuille, James F. O'Brien
+%
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+
+\ProvidesFile{precomputed-cloth.tex}
+\makeatletter\def\input@path{{./TexInputs/}}\makeatother
+
+%----------------------------------------------------------------------------
+
+\documentclass[annual,review]{acmsiggraph-job} %<<>>
+%\documentclass[annual,camera]{acmsiggraph-job}
+
+\usepackage{graphicx}
+\usepackage{color, xcolor}
+
+\graphicspath{{Figures/}{TexInputs/}}
+\usepackage{url}
+\urlstyle{rm}
+
+%----------------------------------------------------------------------------
+
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+
+%\setlist{nolistsep}
+
+
+%----------------------------------------------------------------------------
+
+\newcommand{\paperID}{\textit{papers\_XXXX}}
+
+\newcommand{\theTitle}{Exhaustive Precomputation of Secondary Cloth Effects} % <<>>
+
+
+
+\pdfauthor{Anonymous: Submitted to SIGGRAPH 2013 for review.} %<<>>
+\pdftitle{\theTitle}
+
+\TOGonlineid{\paperID}
+
+\TOGvolume{XX}
+\TOGnumber{X}
+
+\TOGarticleDOI{XXXXXXX.YYYYYYY}
+
+\TOGyear{2013}
+\TOGmonth{Month}
+\TOGvenue{ACM SIGGRAPH}
+\TOGlocation{Anaheim, CA}
+\TOGarticlenum{XXX}
+
+%\TOGpaperURL{http://graphics.berkeley.edu/papers/Narain-AAR-2012-11/Narain-AAR-2012-11.pdf} %<<>>
+%\TOGprojectURL{http://graphics.berkeley.edu/papers/Narain-AAR-2012-11}
+%\TOGvideoURL{http://graphics.berkeley.edu/papers/Narain-AAR-2012-11/Narain-AAR-2012-11.mov}
+
+%\TOGcodeURL{}
+
+\setcounter{page}{1}
+
+% <<>> Change in our final version.
+% \makeatletter\def\@ACMpreprinttext{{To appear in SIGGRAPH Asia 2012 --- Draft version, please do not distribute.}}
+\makeatother
+
+%----------------------------------------------------------------------------
+
+\begin{document}
+
+
+\title{\theTitle}
+
+\author{Doyub Kim, Woojong Koh, Rahul Narain, Kayvon Fatahalian, Adrien Treuille, and James F. O'Brien} %<<>>
+
+
+\affiliation{Some cool places} % <<>>
+
+% Us this for a "teaser" figure on the first page.
+%\teaser{
+%  \caption{ }
+%  \label{fig:teaser}
+%}
+
+\maketitle
+
+
+\begin{abstract}
+  Abstract goes here.
+\end{abstract}
+
+\newcommand{\theKeywords}{Cloth simulation, other stuff goes here...}
+
+\keywords{\theKeywords}\keywordlist % <<>>  Also add to hypersetup ?
+
+%% These CR lists are pointless and just waste space.
+%\begin{CRcatlist}
+%  \CRcat{I.3.7}{Computer Graphics}{Three-Dimensional Graphics}{Animation};
+%  \CRcat{I.6.8}{Simulation and Modeling}{Types of Simulation}{Animation}.
+%\end{CRcatlist}
+
+% \TOGlinkslist  %<<>> Add this later
+
+%\abovecopyrightspacetext{Contact email: Anonymous review.} %<<>>
+\copyrightspace
+
+
+\input{intro}
+\input{related-work}
+\input{method}
+\input{results}
+\input{conclusion}
+
+%\section*{Acknowledgments}
+%
+%Removed for anonymous review.
+
+
+%----------------------------------------------------------------------------
+% Bibliography
+%----------------------------------------------------------------------------
+
+\bibliographystyle{TexInputs/acmsiggraph}
+\bibliography{precomputed-cloth}
+
+%----------------------------------------------------------------------------
+
+\end{document}
+% \end{input}

@@ -1,0 +1,17 @@
+\section{Related Work}
+
+TODO: Begin with as-brief-as-possible discussion of the cost of high-quality cloth simulation (it's covered in detail with great pointers in all the most recent real-time cloth works).  Increasingly sophisticated energy models, collision handling, and accurate time integration for high-resolution of cloth meshes incur high cost, precluding use of high-quality cloth simulation in the interactive domain.
+
+TODO: To achieve improved performance, one alternative has been to simulate cloth dynamics at low-resolution and then improve visual quality by synthesizing further detail (There are many examples of detail/wrinkle synthesis~\cite{Wang:2010}, data-driven upsampling~\cite{Kavan:2011} also falls into this bin).  These techniques are still fundamentally based on simulating dynamics and thus preserve some degree of run-time flexibility, however, as the synthesized detail only perturbs low-resolution simulation output, these techniques are fundamentally limited by the quality of the low-resolution simulation.
+
+TODO: Transition into appeal of subspace methods here. Should describe model reduction, and why we choose to not use it in our work.
+
+Rather than reduce the dynamics of clothing on a human character, the stable spaces technique of de Aguiar et al.~\shortcite{deAguiar:2010} eschews run-time simulation entirely and instead learns a quasi-linear model for the dynamics from black-box simulation data. The learned model approximates cloth motion based on body pose (echoing data-driven skinning approaches) and the recent history of the cloth.
+
+In contrast to stable spaces, James and Fatahalian~\shortcite{James:2003} explicitly tabulate the (arbitrarily non-linear) dynamics of a deformable system.  Thus, run-time cloth simulation amounts to navigating a database of cloth trajectories in the precomputed subspace.  Our work is similar in spirit to that of James and Fatahalian but differs in two key ways.  First, rather than drive the system using a small palette of simple impulses, we represent a much richer space of external forces on the cloth using a character motion graph.  Second, the sheer scale of our precomputation process allows us to tabulate much more complex cloth behaviors, including spaces that exhibit bifurcations and cloth that does not return to a single rest state. Our work addresses the state-space sampling and data compression challenges of distilling terabytes of precomputed data into a representation that can be animated with high quality at interactive rates.
+
+
+POTENTIAL TODO:\\
+Comparison with the harmonic bases paper (citation exists) \\
+Doug James' work on many world's browsing (KF: does this apply?)\\
+paragraph about dynamical systems theory (??) \\
