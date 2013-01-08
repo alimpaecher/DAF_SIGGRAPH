@@ -1,8 +1,26 @@
 \section{DrawAFriend: The Game}
 
-DrawAFriend is an asynchronous turn based guessing game. It works as follows. First a player will pick one of his/her facebook friends to play with. He is then given four mutual friends profile pictures which he can choose to draw. 
+DrawAFriend is an asynchronous turn based guessing game. It works as follows. Players have an option to start a gmae with either a facebook friend or a random player on the internet. The player is then given four pictures which he can draw. These will either be a mutual facebook friends profile pictures or celebrity photos.
 
 After choosing one of their mutual friends to draw, the player is brought to the drawing screen. There he/she can trace the image. At any point the user can press the “eye” button to hide the profile picture and just see their drawing.  Since the iPhone screen is quite small, and the touch screen is not that accurate, players can zoom using the pinch zoom gesture. 
 Once finished, the player can send his/her drawing to the friend whom he is playing the game with. The friend will receive a notification that they have a drawing to guess. Similar to hangman, the player can guess which letters are in the mutual friends’ name. In order to guess a vowel, players must spend coins. Once all consonants have been guessed players can then buy vowels for free. 
 
 This final process gives us a weak classifier of how good the images are. In general, a good drawing is much more likely to be guessed correctly than a bad drawing.
+
+\subsection{The Dataset}
+The DrawAFriend dataset is made up of two categories:
+\begin{enumerate}
+\item Drawings of facebook profile pictures
+\item Drawings of celebrity photos
+\end{enumerate}
+
+These two sub-datasets have very different structure. The facebook profile picture was a shallow dataset, where we had many pictures (800 pictures (made up)) but a very low drawing per pixel ratio 1.2 drawings (made up ) per pixture. 
+
+On the other hand the celebrity sub-dataset is a depth dataset. At the time of writing this paper, there were only 6 celebrity pictures in the game. However since anyone could draw them, there were on average 100 drawings per celebrity photo.
+
+\subsection{Cleaning the Dataset}
+All the drawings are not created equal. While we did not want to pass judgment on different styles, certain drawings are made by people simply trying out the game or actively trying to cheat.
+
+We found a statistically relevant way to weed out drawings that were drawn hapazaardly or just involved spelling out the name of the model.
+
+Potentially include those histograms that show that all the good drawings have significantly more short lines, and have ever decreasing amount of long lines (would have to re-run these experiments).
