@@ -7,6 +7,11 @@ We'll have some amazing vector flow showing in what direction lines want to be p
 
 Live demo on the iPhone.
 
+Method:
+Have a vector field that calculate the nearest neighbor location of the the current stroke.
+Use least squares to preserve curvature but still map to current stroke.
+We have a weighting for how to balance location and curvature. Wonder if we should expose this to the user in some way?
+
 \subsection{Calculating Agreement}
 The linear correlation of nearest neighbors when strokes in an area are in agreement.
 
