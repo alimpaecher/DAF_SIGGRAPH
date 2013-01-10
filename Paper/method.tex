@@ -1,5 +1,13 @@
 \section{Datadriven Drawing Helpers}
 
+\subsection{Averaging}
+There are a lot of just ok drawings. Drawings where people did not even both to zoom in on the eyes to try to get anything done. Basically subcumming to the fat finger problem.
+
+However since there is so many of those drawings, I wonder if we could average those drawings in order to get a good drawings.
+
+Certainly doing a rasterized averaging of all the drawings would, at the very least give a really cool result. However I think the final result would actually be a great drawing.
+
+
 \subsection{Auto-magically Correcting Lines}
 Using least squares method in order to move lines towards average while keeping the general shape.
 
@@ -11,6 +19,18 @@ Method:
 Have a vector field that calculate the nearest neighbor location of the the current stroke.
 Use least squares to preserve curvature but still map to current stroke.
 We have a weighting for how to balance location and curvature. Wonder if we should expose this to the user in some way?
+
+
+Using any medium, but particularly the iPhone, humans are far less percise than they are with a pen and paper. iPhone is particularly plagued with the fat finger problem. The exact location of a stroke is rarely exactly where one want it to be. <maybe site the fat finger papers that michael sent out a while back> 
+
+One thing that people do want preserved is curvature. At least the impression of curvature. Location is difficult, while curvature is quite a bit easier. This may differ with mouse drawings, quick curvature isn't always easy to do but exact location is possible with the mouse (however you don't really have anything to back that up, mostly conjecture).
+
+-Stylistic Agrrement
+	-Curvature is similar, and should not be corrected
+	-Location is off and should be corrected.
+-Stylistic Disagreement
+	-Curvature is not similar, and should not be corrected
+	-Location should not be corrected. However maybe it should be, it would be difficult to know where though. However the assumption is that when there isn't an agreement it's most likely location doesn't matter that much.
 
 \subsection{Calculating Agreement}
 When analyzing the dataset, it became clear that there are moments of stylistic interpreation. While other seems purely conveyed information. It was those stylistic interpretations where people seemed to disagree the most in terms of where lines would go, while other lines were consistant across all good drawings. Hair often fell under the style category, where each artist had their own different type of hair. While the contour sillhouette, as the Where Do People Draw Lines paper put it, was almost always drawn by everyone. 
@@ -28,6 +48,13 @@ Using this fact we were able to calculate to what extent lines in a certain area
 We were able to...
 
 The linear correlation of nearest neighbors when strokes in an area are in agreement.
+
+\subsection{Agreement compared to location}
+I wonder if there's any correlation to be found between "agreement" and location in the face.
+
+Or that people tend to be more in aggrememtn when we are dealing with things with eyes, where you need to zoom in quite a bit. While a chin, people don't need to be as exact to have about the correct drawing. 
+
+I guess this is more talkign about how tight the nearest neighbors are vs how linear they are. Does the scoring function deal with that?
 
 \subsection{Auto-Extending Lines}
 We don't have anything doing this.
