@@ -6,6 +6,7 @@ drawafriend.pdf: drawafriend.bbl *.tex
 drawafriend.bbl: drawafriend.bib
 	pdflatex drawafriend.tex 
 	bibtex drawafriend
+	pdflatex drawafriend.tex 
 
 # pdf: paper.pdf
 # 
