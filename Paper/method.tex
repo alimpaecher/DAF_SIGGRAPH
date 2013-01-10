@@ -13,6 +13,20 @@ Use least squares to preserve curvature but still map to current stroke.
 We have a weighting for how to balance location and curvature. Wonder if we should expose this to the user in some way?
 
 \subsection{Calculating Agreement}
+When analyzing the dataset, it became clear that there are moments of stylistic interpreation. While other seems purely conveyed information. It was those stylistic interpretations where people seemed to disagree the most in terms of where lines would go, while other lines were consistant across all good drawings. Hair often fell under the style category, where each artist had their own different type of hair. While the contour sillhouette, as the Where Do People Draw Lines paper put it, was almost always drawn by everyone. 
+
+The difference may not necessarily be one based on style. But none the less based on the intent of the stroke. The most common stroke (though you are totally guessing) are ones meant to represent contours. It is the most novice way to draw. Perhaps the most telling is players who draw the outline of a celebrities hair. This is a simple but not the best way to reveal hair. 
+
+Conveying shape without contour, usually done through shading, tends to lend itself to more stylistic iterpretation and less percise brush strokes. 
+
+It was important to figure out when stylistic interpretation was occurring, in order to create our automagic line correction. 
+
+To calculate which strokes should be corrected and warped and which should be left alone, an interesting discovery was made. At any point of a picture, we grabbed a single nearest point from each one of the drawings. When we plot those points we found that when lines were "in aggreement", those nearest points formed a striaght line (usually perpendicular to the direction of all the strokes that they were pulled from). When people draw a line the error tends to be in the perpendicular to the direction that they are drawings.
+
+Using this fact we were able to calculate to what extent lines in a certain area were in agreement. By using the following formula:
+<formula>
+We were able to...
+
 The linear correlation of nearest neighbors when strokes in an area are in agreement.
 
 \subsection{Auto-Extending Lines}
