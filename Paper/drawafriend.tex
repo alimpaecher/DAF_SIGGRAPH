@@ -15,7 +15,8 @@
 %\documentclass[annual,camera]{acmsiggraph-job}
 
 \usepackage{graphicx}
-\usepackage{color, xcolor}
+\usepackage[usenames,dvipsnames]{xcolor}
+% \usepackage{color, xcolor}
 
 \graphicspath{{Figures/}{TexInputs/}}
 \usepackage{url}
@@ -71,10 +72,9 @@
 
 \title{\theTitle}
 
-\author{Doyub Kim, Woojong Koh, Rahul Narain, Kayvon Fatahalian, Adrien Treuille, and James F. O'Brien} %<<>>
+\author{Alex Limpaecher, Nicolas Feltman, Adrien Treuille, and Michael Cohen} %<<>>
 
-
-\affiliation{Some cool places} % <<>>
+\affiliation{Carnegie Mellon University and Microsoft Research} % <<>>
 
 % Us this for a "teaser" figure on the first page.
 %\teaser{
@@ -104,7 +104,7 @@
 %\abovecopyrightspacetext{Contact email: Anonymous review.} %<<>>
 \copyrightspace
 
-
+\input{defs}
 \input{intro}
 \input{related-work}
 \input{game}
