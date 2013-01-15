@@ -3,7 +3,7 @@ all: drawafriend.pdf
 drawafriend.pdf: drawafriend.bbl *.tex
 	pdflatex drawafriend.tex 
 
-drawafriend.bbl: drawafriend.bib
+drawafriend.bbl: *.bib
 	pdflatex drawafriend.tex 
 	bibtex drawafriend
 	pdflatex drawafriend.tex 

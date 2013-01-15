@@ -1,10 +1,91 @@
 \section{Related Work}
 
-Papers to site:
--Where Do People Draw Lines? ~\cite{Cole:2008:WDP}
--Shadow Draw ~\cite{Lee:2011}
--Laplacian Mesh Editting ~\cite{Sorkine:2004:LSE}
--The Amazon Turk Drawing Project in Siggraph last year 
--Michael sent out those fat finger user studies which might be useful
+The graphics community is witnessing a recent spike of interest in
+``big data'' approaches to understanding drawing, with the
+prototypical examples being \emph{ShadowDraw} \cite{Lee:2011} which
+help guide freeform sketching and \emph{WhatsMySketch}
+\cite{Eitz:2012:HSO} which identifies iPhone sketches as one of 250
+possible object classes. A important distinction between these
+efforts and our work is the data-collection approach. Lee \etal used
+30,000 sketches downloaded from existing web databases in raster
+format which Eitz \etal collected 20,000 sketches on Amazon
+Mechanical Turk (https://www.mturk.com). By contrast created a
+publicly available iPhone game \emph{DrawAFriend} which uses
+mechanics similar to \emph{DrawSomething}
+(http://omgpop.com/drawsomething) to intrinsically motivate players
+to contribute drawings. In principle our game approach means that we
+have ``never ending'' data collection which can be re-instrumented
+on the fly in response to changing demands from the research
+community, and also could prove more cost-effective than Mechanical
+Turk if the game gets significant user uptake.
 
+
+. The former uses a database of  . The latter uses a
+database of 
+Studying large databases of hand-drawn imagse
+
+[ ] Shadow Draw ~\cite{}
+	[ ] guiding the freeform drawing of objects
+	[ ] database of 30,000 sketches collected from the web in (raster format)
+[ ] WhatsMySketch - Eitz et all (The Amazon Turk Drawing Project in Siggraph last year) :: \cite{}
+	[ ] 20,000 sketches from amazon mechanical turk
+
+by von Ahn and co-authors. 
+
+[ ] peekaboo - vonAhn:2006:PGL
+[ ] ESP Game - vonAhn:2004:LIC
+
+In that sense our paper is closer 
+
+[ ] Where Do People Draw Lines? ~\cite{Cole:2008:WDP}
+	[ ] analysis 
+[ ] iCanDraw :: Dixon:2010:IUS
+	[ ] tutorial style interface to help people draw faces better
+		[ ] no big data component
+
+Visual Cues:
+
+[x] http://research.microsoft.com/en-us/um/people/benko/publications/2009/Ripples%20UIST09.pdf
+	%http://research.microsoft.com/en-us/um/people/benko/publications/2009/Ripples_UIST.wmv
+	- taxonomize touch-based interaction errors
+	- adress this problem with visual cues
+	- good for pointing interface, not drawing interface
+
+New Interaction Patterns Which solve the problem (picking, dragging, standard interaction patterns)
+
+[x] ripples 1  - High precision touch screen interaction :: Albinsson:2003:HPT:642611.642631
+
+[c] High Precision Touchscreens: Design Strategies and Comparison with a Mouse. (**) :: Albinsson:2003:HPT:642611.642631
+[c] ripples 3 - Precise selection techniques for multitouch screens. :: Benko:2006:PST:1124772.1124963
+[c] ripples 8 - Hybridpointing :: Forlines06hybridpointing:fluid
+[c] ripples 23 - Shift :: Vogel07shift:a
+
+[s] Touch screens now offer compelling uses.
+[s] Improving the accuracy of touch screens: an experimental evaluation of three strategies
+[s] ripples 15
+[s] ripples 21 - HybridTouch
+
+Changing the hardware:
+
+[c] ripples 11 - BehindTouch :: Scott:2010:RTE:1851600.1851630
+[c] ripples 24 - Under the Table :: Wigdor:2006:UTI:1166253.1166294
+[c] ripples 25 - LucidTouch :: Wigdor:2007:LTS:1294211.1294259
+
+Study the fingertip geometry of touching:
+
+[ ] Understanding touch :: holz2011ut
+	% http://www.christianholz.net/understanding_touch.html
+
+For a good overview please see:
+
+[ ] book by Hrvoje Benko with Daniel Wigdor :: \cite{Benko:Fatfinger}
+
+Deformation...
+
+[ ] Intelligent Scissors :: Mortensen:1995:ISF
+	[ ] Intelligent Scissors (a.k.a. Live Wire or Magnetic Lasso)
+	[Mortensen and Barrett 1995] allows a user to choose a “minimum
+	cost contour” by roughly tracing the object’s boundary with the
+	mouse. A
+[ ] Laplacian Mesh Editting ~\cite{Sorkine:2004:LSE}
 
