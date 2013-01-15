@@ -9,13 +9,21 @@ Certainly doing a rasterized averaging of all the drawings would, at the very le
 
 
 \subsection{Auto-magically Correcting Lines}
-Using least squares method in order to move lines towards average while keeping the general shape.
+Our line correction strategy has two phases.  
+\begin{itemize}
+\item Using all of the training drawings available for our image, we create a vector field, which tells us for each pixel on the image, the delta toward the nearest apparent line (section \#).  This phase can occur offline.
+\item The vector field is transmitted to each mobile device.  When a user draws a stroke, the field is sampled along the path of the stroke, and the stroke is moved smoothly (section \#).  
+\end{itemize}
+This two-phase approach is advantageous, because the bulk of learning can be done a-priori, off of the underpowered mobile device.
+\subsubsection{Computing the Vector Field}
+The goal of the vector field is to move our point towards the nearest {\em apparent stroke}, which defined simply as a stroke that appears in many drawings.
 
-We'll have some amazing vector flow showing in what direction lines want to be pulled if at all.
+Given a point $p$ in the image, we first find the nearest point from every drawing in our training set.  Call this set of nearest-neighbors $N$.  Members of $N$ fall into one of two categories: those from an apparent line, and noise.  We assume that there can only be one apparent stroke represented in $N$.  As shown in figure \#, an apparent stroke will manifest in $N$ as a line through the origin, orthogonal to the strokes.  
 
-Live demo on the iPhone.
 
-Method:
+
+\nico{Old unincorporated stuff below here.}
+
 Have a vector field that calculate the nearest neighbor location of the the current stroke.
 Use least squares to preserve curvature but still map to current stroke.
 We have a weighting for how to balance location and curvature. Wonder if we should expose this to the user in some way?
