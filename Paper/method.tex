@@ -18,9 +18,18 @@ This two-phase approach is advantageous, because the bulk of learning can be don
 \subsubsection{Computing the Vector Field}
 The goal of the vector field is to move our point towards the nearest {\em apparent stroke}, which defined simply as a stroke that appears in many drawings.
 
-Given a point $p$ in the image, we first find the nearest point from every drawing in our training set.  Call this set of nearest-neighbors $N$.  Members of $N$ fall into one of two categories: those from an apparent line, and noise.  We assume that there can only be one apparent stroke represented in $N$.  As shown in figure \#, an apparent stroke will manifest in $N$ as a line through the origin, orthogonal to the strokes.  
+Given a point $p$ in the image, we first find the nearest point from each drawing in our training set.  Such nearest neighbors fall into one of two categories: those from an apparent stroke, and noise.  We assume that there can only be one apparent stroke represented in the nearest neighbor.  As shown in figure \#, an apparent stroke will manifest as a line through the origin, orthogonal to the strokes.  We assume in our model that the neighbors that form the apparent line are distribute along a gaussian with a principle axis pointed back to the origin. 
 
+Our algorithm works by interatively updating a vector of weights, {\bf w}, which represent the belief that a particular neighbor is a member of the apparent stroke.  We initialize all weights using a gaussian centered at the origin, with standard deviation equal to the mean of the distances of all neighbors. The iteration proceeds by finding the weighted mean ($\mu$) of all neighbors, calculating the standard deviation ($\sigma_1$) in the direction back toward $p$, as well as the standard deviation ($\sigma_2$) in the direction orthogonal to $p$.  These are given by:
 
+\begin{eqnarray}
+{\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j \\
+{\bf \nu} = \mu/||\mu|| \\
+\sigma_1 =  \sqrt{\left(\sum_j w_j (({\bf v}_j-\mu)^{\bf T}\nu)^2\right) / \sum_j w_j} \\
+\sigma_2 =  \sqrt{\left(\sum_j w_j ({\bf v}_j^{\bf T}\nu_\perp)^2\right) / \sum_j w_j}
+\end{eqnarray}
+
+From here, the algorithm reweights all points according to the new gaussian distribution, and applies a simple regularization ${\bf w} = {\bf w}/ ({\bf w}+0.05)$.  The term 0.05 was chosen experimentally.
 
 \nico{Old unincorporated stuff below here.}
 
