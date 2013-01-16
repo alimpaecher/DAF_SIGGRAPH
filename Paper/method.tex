@@ -31,6 +31,57 @@ Our algorithm works by interatively updating a vector of weights, {\bf w}, which
 
 From here, the algorithm reweights all points according to the new gaussian distribution, and applies a simple regularization ${\bf w} = {\bf w}/ ({\bf w}+0.05)$.  The term 0.05 was chosen experimentally.
 
+\subsubsection{Laplacian Stroke Morphing}
+
+Although we know how an individual point within the image should move, we still need to define how a whole stroke is morphed.   
+
+The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(d_1, \ldots, d_k)$, and simply move each point to arrive at $(p_1 + d_1, \ldots, p_k + d_k)$.  Due to noise in the field, this produces slightly jagged results.  In addition, any discontinuities in the morphing field would cause very undesirable end results.   Whereas the fat finger problem is likely to cause the input stroke to be off in terms of displacement, the overall shape can be trusted.
+
+What we want is to keep the guidance of the morphing field on where to move, but still maintain the shape of the original stroke.  We therefore create and solve an overconstrained linear system that represents both of those requriements.  In the following system, $p_i$ represents an input stroke sample locations for $i=1\ldots m$, $d_i$ represents the correction field at $p_i$, and $p_i'$ represents the corrected sample.  All omitted matrix elements are 0.
+
+\nico{maybe show this as a bunch of equations, and then the matrix?}
+
+\[
+\left[
+\begin{array}{ccccc}
+1 &  &  &  & \\
+ & 1 &  &  &  \\
+ &  & \ddots &   &  \\
+ &  &  & 1 &  \\
+  &  &  &  & 1 \\
+-1 & 1 &   &  &  \\
+ & -1 & 1 &  &  \\
+ &  & \ddots & \ddots &  \\
+ &  &  & -1 & 1 \\
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+p'_1 \\
+p'_2 \\
+\vdots \\
+p'_{k-1} \\
+p'_k
+\end{array}
+\right]
+ \approx
+\left[
+\begin{array}{c}
+p_1 + d_1\\
+p_2 + d_2\\
+\vdots \\
+p_{k-1} + d_{k-1}\\
+p_k + d_k\\
+p_2-p_1 \\
+p_2-p_3 \\
+\vdots \\
+p_k - p_{k-1}
+\end{array}
+\right]
+\]
+
+We see that the first $k$ rows of the system correspond to the positional constraints, whereas the last $k-1$ rows correspond to the smoothness constraints.  We solve this system to minimize the sum-of-square error.
+
 \nico{Old unincorporated stuff below here.}
 
 Have a vector field that calculate the nearest neighbor location of the the current stroke.
@@ -73,9 +124,4 @@ Or that people tend to be more in aggrememtn when we are dealing with things wit
 
 I guess this is more talkign about how tight the nearest neighbors are vs how linear they are. Does the scoring function deal with that?
 
-\subsection{Auto-Extending Lines}
-We don't have anything doing this.
-
-\subsection{Preserving Style}
-Adaboosting but for strokes. We haven't really done this yet.
 
