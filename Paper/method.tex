@@ -1,14 +1,23 @@
 \section{Data Driven Drawing}
 
-Our goal is provide a drawing interface on mobile device that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system by using a tracing paradigm. To provide assistance, we take advantage of previous drawings of the same face and then pull the users strokes towards a {\em consensus} of previous drawings when the user's stroke appear to approximate the local consensus.
+Our goal is provide a drawing interface on mobile device that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system by using a tracing paradigm. The simplest idea would to be to attract drawn strokes to edges found in the image being traced. Unfortunately, this idea fails in two respects. First edge detectors such as Canny methods (see Figure~\ref{fig:edges}, left) have no notion of semantics and thus appear noisy and inconsistent. Second, humans tend to select only the most meaningful edges to draw.
 
-Our stroke correction strategy has two phases.
+\begin{figure}
+\includegraphics[height=2in]{Canny/edges_bo.png}
+\includegraphics[height=2in]{figures/imagetable/avg_bo.png}
+  \caption{  }
+  \label{fig:edges}
+\end{figure}
+
+To provide assistance, we take advantage of previous drawings of the same face and then pull the users strokes towards a {\em consensus} of previous drawings when the user's stroke appear to approximate the local consensus. The simplest idea for forming a consensus would be to use an {\em average} drawing (see Figure~\ref{fig:edges}, right). This idea is also very problematic as the averages tend to create very fat lines of varying darkness and broad region such as in the hair. Although some kind of {\em skeletonization} may aid the first problem it would fail on the second.
+
+Instead, we develop a stroke correction strategy with two phases.
 \begin{itemize}
 \item Consensus Finding: Using the training drawings available for an image, we create a correction vector field, which indicates for each pixel on the image, the delta toward the nearest {\em consensus line}.  This phase is run off-line.
 \item Real-time Correction: The correction vector field is transmitted to the mobile device along with the image to be traced.  When a user draws a stroke, the field is sampled along the path of the stroke, and the stroke is moved in such a way to balance stroke style and follow the correction field.
 \end{itemize}
 
-\subsubsection{The Correction Vector Field}
+\subsection{The Correction Vector Field}
 
 
 A correction vector field, $V(p)$, is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
@@ -47,62 +56,34 @@ We then reweight all points according to the new gaussian distribution, includin
 
 The iterations end when $\mu$ stops moving, and $V(p)$ is set to $\mu$.
 
-\subsubsection{Laplacian Stroke Morphing}
+\subsection{Laplacian Stroke Morphing}
 
 
 The vector field, $V$, defined above indicates a best guess of how any individual vertex on a stroke polyline should move to match the consensus of all drawings.
 
-The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k)$, and simply move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost. The fat finger problem is likely to cause the input stroke to be off primarily in displacement, however, the overall shape can be more trusted to represent the user's {\em intent}.
+The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k)$, and simply move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost. The fat finger problem is likely to cause the input stroke to be off primarily in displacement, while the overall stroke shape can be more trusted to represent the user's {\em intent}.
 
-Our goal is to use the guidance of the vector field on where to move, but still maintain most of the shape of the original stroke.  We therefore create and solve an over-constrained linear system that represents both of those objectives.  In the following system, $p_i$ represents an input stroke sample locations for $i=1\ldots k$, $V_i$ is a shorthand for $V(p_i)$ representing the correction vector field at $p_i$, and $p_i'$ represents the corrected sample.
+Our goal is thus to use the guidance of the vector field on where to move, but still maintain most of the shape of the original stroke.  We therefore create and solve an over-constrained linear system that represents both of those objectives.  
 
-The first $k$ equations simply state:
+With $p_i$ representing input stroke sample locations for $i=1\ldots k$, $V_i$ a shorthand for $V(p_i)$ representing the correction vector field at $p_i$, and $p_i'$ representing the corrected samples, we construct a quadratic error function as:
+
 \begin{equation}
-p_i' = p_i + V_i
+E = \alpha \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \sum_{i=i-1}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
 \end{equation}
-The final $k-1$ equations try to make the displacement of neighboring points be the same:
-\begin{equation}
-p_i' - p_{i-1}' = p_i - p_{i-1}
-\end{equation}
-Or in matrix form, with omitted matrix elements 0:
-\[
-\left[
-\begin{array}{ccccc}
-1 &  &  &  & \\
- & 1 &  &  &  \\
- &  & \ddots &   &  \\
- &  &  & 1 &  \\
-  &  &  &  & 1 \\
--1 & 1 &   &  &  \\
- & -1 & 1 &  &  \\
- &  & \ddots & \ddots &  \\
- &  &  & -1 & 1 \\
-\end{array}
-\right]
-\left[
-\begin{array}{c}
-p'_1 \\
-p'_2 \\
-\vdots \\
-p'_{k-1} \\
-p'_k
-\end{array}
-\right]
- \approx
-\left[
-\begin{array}{c}
-p_1 + V_1\\
-p_2 + V_2\\
-\vdots \\
-p_{k-1} + V_{k-1}\\
-p_k + V_k\\
-p_2-p_1 \\
-p_2-p_3 \\
-\vdots \\
-p_k - p_{k-1}
-\end{array}
-\right]
-\]
+
+The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with a standard least squares solver on the $2k-1$ terms.
+
+\subsubsection{Setting $\alpha$ - Closely Spaced Consensus Strokes}
+
+A higher $\alpha$ value results in {\em stiffer} strokes in the sense that they maintain their shape instead of following variations in the vector field precisely. Aside from maintaining the {\em style} of the strokes, a high stiffness also help avoid having part of a stroke pulled in one direction and another part pulled in another. This can happen especially when there are two closely space parallel lines in the consensus, such as the two sides of the nose, or the bottom and top of the lips. Unfortunately, a very high $\alpha$ does not allow the strokes to adapt at all to the subtleties of the consensus drawing represented in the vector field.
+
+To achieve the goals of avoiding the two nearby stroke problem while balancing stiffness and style, we use a {\em continuation method}, performing three iterations of the solver described above. We begin with $\alpha=10$. This high stiffness value leads to an almost rigid transformation of the stroke. We then lower $\alpha$ to 7, and feed the previous result, $\hat{p}$ into the first error term, $(p_i' - (\hat{p}_i + V_i)$, while keeping the original terms for the latter half of the error measure, and solve the new system. We repeat this one final time with $\alpha=4$ to get our final result. The $\alpha$ values (10,7,4) were chosen experimentally.
+
+\subsubsection{Purely Stylistic Strokes}
+
+We also found that some strokes are purely stylistic in nature. For example, some writes "Obama" above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $|V_i|$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direct is mostly orthogonal to the vector field. The latter term is measured with the average of the angle cosines $(\tilde{(p_i - p_{i-1})} \cdot \tilde{V_i})$ where the {\em tilded} vector represent unit vectors. If the average is below 0.5, it is considered purely stylistic.
 
 
-We solve this system to minimize the sum-of-square error.
+
+
+
