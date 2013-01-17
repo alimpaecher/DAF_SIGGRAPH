@@ -10,6 +10,7 @@ Our stroke correction strategy has two phases.
 
 \subsubsection{The Correction Vector Field}
 
+
 A correction vector field, $V(p)$, is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
 
 
@@ -20,14 +21,16 @@ A correction vector field, $V(p)$, is constructed to point, for each location in
   \label{fig:ellipse}
 \end{figure}
 
+
 Given a point $p$ in the image to be drawn, we first find the nearest stroke point, $v_i$ in each drawing, $D_i$, in our training set. We place the nearest points, $v$, in a coordinate system using $p$ as the origin (see the red points in Figure~\ref{fig:ellipse}). One key observation is that the position of the point $v_i$ also encodes the orientation of the nearest stroke in $D_i$. In particular, the stroke orientation will always be orthogonal to the vector $v_i$ (aside from minor discretization noise), otherwise there would be some closer stroke point. Thus, a series of nearest strokes that are closely aligned in position and orientation will produce a set of nearest points, $v$, that lie approximately along a line, and this line will intersect the origin (i.e., the point $p$).
 
 Our goal is find a consensus of nearby strokes that avoids undue influence from outliers. For the points, $v$, we seek a {\em mode} in which the points lie in close proximity to each other and lie roughly along a line pointing back towards the origin. We employ an iterative mean shift style algorithm for the mode finding.
 
 Our algorithm works by iteratively updating a vector of weights, {\bf w}, which represent the belief that a particular neighbor is a member of the consensus stroke. The final correction vector, $V(p)$, is given a weighted mean of the points, $v$. We initialize all weights using a symmetric Gaussian centered at the origin, with $\sigma$ equal to the mean distance to all neighbors $v$.
 
+
 The iteration proceeds by determining an anisotropic Gaussian with weighted mean, $\mu$ (equation~\ref{mean}),
-$\sigma_1$ in the direction back toward the origin, $p$, (equation~\ref{sig1}), and ($\sigma_2$) in the orthogonal direction (equation~\ref{sig2}). 
+$\sigma_1$ in the direction back toward the origin, $p$, (equation~\ref{sig1}), and ($\sigma_2$) in the orthogonal direction (equation~\ref{sig2}).
 \begin{equation}
 {\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j  \label{mean}
 \end{equation}
@@ -45,6 +48,7 @@ We then reweight all points according to the new gaussian distribution, includin
 The iterations end when $\mu$ stops moving, and $V(p)$ is set to $\mu$.
 
 \subsubsection{Laplacian Stroke Morphing}
+
 
 The vector field, $V$, defined above indicates a best guess of how any individual vertex on a stroke polyline should move to match the consensus of all drawings.
 
@@ -100,7 +104,5 @@ p_k - p_{k-1}
 \right]
 \]
 
+
 We solve this system to minimize the sum-of-square error.
-
-
-
