@@ -3,9 +3,11 @@
 Our goal is provide a drawing interface on mobile device that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system by using a tracing paradigm. The simplest idea would to be to attract drawn strokes to edges found in the image being traced. Unfortunately, this idea fails in two respects. First edge detectors such as Canny methods (see Figure~\ref{fig:edges}, left) have no notion of semantics and thus appear noisy and inconsistent. Second, humans tend to select only the most meaningful edges to draw.
 
 \begin{figure}
+  \centering%
 \includegraphics[height=2in]{Canny/edges_bo.png}
+\hspace{0.1in}
 \includegraphics[height=2in]{figures/imagetable/avg_bo.png}
-  \caption{  }
+  \caption{Left: Canny edges, Right: average drawing}
   \label{fig:edges}
 \end{figure}
 
@@ -19,8 +21,16 @@ Instead, we develop a stroke correction strategy with two phases.
 
 \subsection{The Correction Vector Field}
 
+\begin{figure}
+  \centering%
+\includegraphics[height=2in]{figures/imagetable/mag_bo.png}
+\hspace{0.1in}
+\includegraphics[height=2in]{figures/imagetable/dir_bo.png}
+  \caption{Left: vector magnitude, Right: sampled vector field orientations}
+  \label{fig:vectorfield}
+\end{figure}
 
-A correction vector field, $V(p)$, is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
+A correction vector field, $V(p)$, (see Figure~\ref{fig:vectorfield}) is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
 
 
 \begin{figure}
