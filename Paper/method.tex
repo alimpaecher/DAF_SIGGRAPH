@@ -1,46 +1,66 @@
-\section{Datadriven Drawing Helpers}
+\section{Data Driven Drawing}
 
-\subsection{Averaging}
-There are a lot of just ok drawings. Drawings where people did not even both to zoom in on the eyes to try to get anything done. Basically subcumming to the fat finger problem.
+Our goal is provide a drawing interface on mobile device that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system by using a tracing paradigm. To provide assistance, we take advantage of previous drawings of the same face and then pull the users strokes towards a {\em consensus} of previous drawings when the user's stroke appear to approximate the local consensus.
 
-However since there is so many of those drawings, I wonder if we could average those drawings in order to get a good drawings.
-
-Certainly doing a rasterized averaging of all the drawings would, at the very least give a really cool result. However I think the final result would actually be a great drawing.
-
-
-\subsection{Auto-magically Correcting Lines}
-Our line correction strategy has two phases.  
+Our stroke correction strategy has two phases.
 \begin{itemize}
-\item Using all of the training drawings available for our image, we create a vector field, which tells us for each pixel on the image, the delta toward the nearest apparent line (section \#).  This phase can occur offline.
-\item The vector field is transmitted to each mobile device.  When a user draws a stroke, the field is sampled along the path of the stroke, and the stroke is moved smoothly (section \#).  
+\item Consensus Finding: Using the training drawings available for an image, we create a correction vector field, which indicates for each pixel on the image, the delta toward the nearest {\em consensus line}.  This phase is run off-line.
+\item Real-time Correction: The correction vector field is transmitted to the mobile device along with the image to be traced.  When a user draws a stroke, the field is sampled along the path of the stroke, and the stroke is moved in such a way to balance stroke style and follow the correction field.
 \end{itemize}
-This two-phase approach is advantageous, because the bulk of learning can be done a-priori, off of the underpowered mobile device.
-\subsubsection{Computing the Vector Field}
-The goal of the vector field is to move our point towards the nearest {\em apparent stroke}, which defined simply as a stroke that appears in many drawings.
 
-Given a point $p$ in the image, we first find the nearest point from each drawing in our training set.  Such nearest neighbors fall into one of two categories: those from an apparent stroke, and noise.  We assume that there can only be one apparent stroke represented in the nearest neighbor.  As shown in figure \#, an apparent stroke will manifest as a line through the origin, orthogonal to the strokes.  We assume in our model that the neighbors that form the apparent line are distribute along a gaussian with a principle axis pointed back to the origin. 
+\subsubsection{The Correction Vector Field}
 
-Our algorithm works by interatively updating a vector of weights, {\bf w}, which represent the belief that a particular neighbor is a member of the apparent stroke.  We initialize all weights using a gaussian centered at the origin, with standard deviation equal to the mean of the distances of all neighbors. The iteration proceeds by finding the weighted mean ($\mu$) of all neighbors, calculating the standard deviation ($\sigma_1$) in the direction back toward $p$, as well as the standard deviation ($\sigma_2$) in the direction orthogonal to $p$.  These are given by:
+A correction vector field, $V(p)$, is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
 
+
+\begin{figure}
+  \centering%
+  \includegraphics[width=3.4in]{ellipse.png}
+  \caption{  }
+  \label{fig:ellipse}
+\end{figure}
+
+Given a point $p$ in the image to be drawn, we first find the nearest stroke point, $v_i$ in each drawing, $D_i$, in our training set. We place the nearest points, $v$, in a coordinate system using $p$ as the origin (see the red points in Figure~\ref{fig:ellipse}). One key observation is that the position of the point $v_i$ also encodes the orientation of the nearest stroke in $D_i$. In particular, the stroke orientation will always be orthogonal to the vector $v_i$ (aside from minor discretization noise), otherwise there would be some closer stroke point. Thus, a series of nearest strokes that are closely aligned in position and orientation will produce a set of nearest points, $v$, that lie approximately along a line, and this line will intersect the origin (i.e., the point $p$).
+
+Our goal is find a consensus of nearby strokes that avoids undue influence from outliers. For the points, $v$, we seek a {\em mode} in which the points lie in close proximity to each other and lie roughly along a line pointing back towards the origin. We employ an iterative mean shift style algorithm for the mode finding.
+
+Our algorithm works by iteratively updating a vector of weights, {\bf w}, which represent the belief that a particular neighbor is a member of the consensus stroke. The final correction vector, $V(p)$, is given a weighted mean of the points, $v$. We initialize all weights using a symmetric Gaussian centered at the origin, with $\sigma$ equal to the mean distance to all neighbors $v$.
+
+The iteration proceeds by determining an anisotropic Gaussian with weighted mean, $\mu$ (equation~\ref{mean}),
+$\sigma_1$ in the direction back toward the origin, $p$, (equation~\ref{sig1}), and ($\sigma_2$) in the orthogonal direction (equation~\ref{sig2}). 
+\begin{equation}
+{\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j  \label{mean}
+\end{equation}
+and define the normalized mean,
+\begin{equation}
+{\bf \nu} = \mu/||\mu||
+\end{equation}
+with the anisotropic standard deviations given by
 \begin{eqnarray}
-{\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j \\
-{\bf \nu} = \mu/||\mu|| \\
-\sigma_1 =  \sqrt{\left(\sum_j w_j (({\bf v}_j-\mu)^{\bf T}\nu)^2\right) / \sum_j w_j} \\
-\sigma_2 =  \sqrt{\left(\sum_j w_j ({\bf v}_j^{\bf T}\nu_\perp)^2\right) / \sum_j w_j}
+\sigma_1 =  \sqrt{\left(\sum_j w_j (({\bf v}_j-\mu)^{\bf T}\nu)^2\right) / \sum_j w_j} \label{sig1}\\
+\sigma_2 =  \sqrt{\left(\sum_j w_j ({\bf v}_j^{\bf T}\nu_\perp)^2\right) / \sum_j w_j} \label{sig2}
 \end{eqnarray}
+We then reweight all points according to the new gaussian distribution, including a simple regularization ${\bf w} = {\bf w}/ ({\bf w}+0.05)$.  The regularization serves to reinforce points near the mean, and further discount points away from the mean. The term 0.05 which intuitively says that any points more than two standard deviations away from the mean are mostly noise, was chosen experimentally.
 
-From here, the algorithm reweights all points according to the new gaussian distribution, and applies a simple regularization ${\bf w} = {\bf w}/ ({\bf w}+0.05)$.  The term 0.05 was chosen experimentally.
+The iterations end when $\mu$ stops moving, and $V(p)$ is set to $\mu$.
 
 \subsubsection{Laplacian Stroke Morphing}
 
-Although we know how an individual point within the image should move, we still need to define how a whole stroke is morphed.   
+The vector field, $V$, defined above indicates a best guess of how any individual vertex on a stroke polyline should move to match the consensus of all drawings.
 
-The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(d_1, \ldots, d_k)$, and simply move each point to arrive at $(p_1 + d_1, \ldots, p_k + d_k)$.  Due to noise in the field, this produces slightly jagged results.  In addition, any discontinuities in the morphing field would cause very undesirable end results.   Whereas the fat finger problem is likely to cause the input stroke to be off in terms of displacement, the overall shape can be trusted.
+The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k)$, and simply move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost. The fat finger problem is likely to cause the input stroke to be off primarily in displacement, however, the overall shape can be more trusted to represent the user's {\em intent}.
 
-What we want is to keep the guidance of the morphing field on where to move, but still maintain the shape of the original stroke.  We therefore create and solve an overconstrained linear system that represents both of those requriements.  In the following system, $p_i$ represents an input stroke sample locations for $i=1\ldots m$, $d_i$ represents the correction field at $p_i$, and $p_i'$ represents the corrected sample.  All omitted matrix elements are 0.
+Our goal is to use the guidance of the vector field on where to move, but still maintain most of the shape of the original stroke.  We therefore create and solve an over-constrained linear system that represents both of those objectives.  In the following system, $p_i$ represents an input stroke sample locations for $i=1\ldots k$, $V_i$ is a shorthand for $V(p_i)$ representing the correction vector field at $p_i$, and $p_i'$ represents the corrected sample.
 
-\nico{maybe show this as a bunch of equations, and then the matrix?}
-
+The first $k$ equations simply state:
+\begin{equation}
+p_i' = p_i + V_i
+\end{equation}
+The final $k-1$ equations try to make the displacement of neighboring points be the same:
+\begin{equation}
+p_i' - p_{i-1}' = p_i - p_{i-1}
+\end{equation}
+Or in matrix form, with omitted matrix elements 0:
 \[
 \left[
 \begin{array}{ccccc}
@@ -67,11 +87,11 @@ p'_k
  \approx
 \left[
 \begin{array}{c}
-p_1 + d_1\\
-p_2 + d_2\\
+p_1 + V_1\\
+p_2 + V_2\\
 \vdots \\
-p_{k-1} + d_{k-1}\\
-p_k + d_k\\
+p_{k-1} + V_{k-1}\\
+p_k + V_k\\
 p_2-p_1 \\
 p_2-p_3 \\
 \vdots \\
@@ -80,48 +100,7 @@ p_k - p_{k-1}
 \right]
 \]
 
-We see that the first $k$ rows of the system correspond to the positional constraints, whereas the last $k-1$ rows correspond to the smoothness constraints.  We solve this system to minimize the sum-of-square error.
+We solve this system to minimize the sum-of-square error.
 
-\nico{Old unincorporated stuff below here.}
-
-Have a vector field that calculate the nearest neighbor location of the the current stroke.
-Use least squares to preserve curvature but still map to current stroke.
-We have a weighting for how to balance location and curvature. Wonder if we should expose this to the user in some way?
-
-
-Using any medium, but particularly the iPhone, humans are far less percise than they are with a pen and paper. iPhone is particularly plagued with the fat finger problem. The exact location of a stroke is rarely exactly where one want it to be. <maybe site the fat finger papers that michael sent out a while back> 
-
-One thing that people do want preserved is curvature. At least the impression of curvature. Location is difficult, while curvature is quite a bit easier. This may differ with mouse drawings, quick curvature isn't always easy to do but exact location is possible with the mouse (however you don't really have anything to back that up, mostly conjecture).
-
--Stylistic Agrrement
-	-Curvature is similar, and should not be corrected
-	-Location is off and should be corrected.
--Stylistic Disagreement
-	-Curvature is not similar, and should not be corrected
-	-Location should not be corrected. However maybe it should be, it would be difficult to know where though. However the assumption is that when there isn't an agreement it's most likely location doesn't matter that much.
-
-\subsection{Calculating Agreement}
-When analyzing the dataset, it became clear that there are moments of stylistic interpreation. While other seems purely conveyed information. It was those stylistic interpretations where people seemed to disagree the most in terms of where lines would go, while other lines were consistant across all good drawings. Hair often fell under the style category, where each artist had their own different type of hair. While the contour sillhouette, as the Where Do People Draw Lines paper put it, was almost always drawn by everyone. 
-
-The difference may not necessarily be one based on style. But none the less based on the intent of the stroke. The most common stroke (though you are totally guessing) are ones meant to represent contours. It is the most novice way to draw. Perhaps the most telling is players who draw the outline of a celebrities hair. This is a simple but not the best way to reveal hair. 
-
-Conveying shape without contour, usually done through shading, tends to lend itself to more stylistic iterpretation and less percise brush strokes. 
-
-It was important to figure out when stylistic interpretation was occurring, in order to create our automagic line correction. 
-
-To calculate which strokes should be corrected and warped and which should be left alone, an interesting discovery was made. At any point of a picture, we grabbed a single nearest point from each one of the drawings. When we plot those points we found that when lines were "in aggreement", those nearest points formed a striaght line (usually perpendicular to the direction of all the strokes that they were pulled from). When people draw a line the error tends to be in the perpendicular to the direction that they are drawings.
-
-Using this fact we were able to calculate to what extent lines in a certain area were in agreement. By using the following formula:
-<formula>
-We were able to...
-
-The linear correlation of nearest neighbors when strokes in an area are in agreement.
-
-\subsection{Agreement compared to location}
-I wonder if there's any correlation to be found between "agreement" and location in the face.
-
-Or that people tend to be more in aggrememtn when we are dealing with things with eyes, where you need to zoom in quite a bit. While a chin, people don't need to be as exact to have about the correct drawing. 
-
-I guess this is more talkign about how tight the nearest neighbors are vs how linear they are. Does the scoring function deal with that?
 
 
