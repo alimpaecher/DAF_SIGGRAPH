@@ -1,22 +1,88 @@
 \section{Conclusion}
 
-DrawAFriend
-a successful new iPhone game we developed specifically for the
-purpose of collecting drawing data.
+This paper presented a unique crowdsourcing approach to address the
+``fat finger'' problem in touch-based drawing. We developed an
+iPhone game, \emph{DrawAFriend}, specifically for the purpose of
+collecting drawing data. We then introduced a method to extract
+stroke-level artistic consensus from a large drawing corpus. The
+resulting \emph{correction vector field} improves strokes in
+real-time without new interactions and while preserving artistic
+intent.
 
-One idea for bigger picture: Is that we have developed a format of dealing with the ``fat finger'' problem. A data-driven method to deal with that issue. (Though this might be more appropriate for an HCI project)
+We presented stroke correction on over 80 images (supplemental
+materials) which illustrate our method's ability to improve both
+aesthetics and recognizability. In the future, we are excited to
+quantify these improvements by releasing stroke correction to the
+public and measuring drawing speed and recognizability. In general,
+we believe that DrawAFriend presents an unprecedented platform to
+perform quantitative drawing analysis at the Internet scale.
 
-Looking further into the future, we hope that DrawAFriend will establish a template for Facebook applications that incentivizes the creation of large complex datasets. This will create a virtuous cycle between user interfaces, social experiences, and research to promote our understanding of our humanity in this ever evolving interconnected world.
+Our stroke correction method several drawbacks. Even with stroke
+correction, many drawings are still not beautiful. We would like to
+study automatic aesthetic enhancement of strokes, including weight
+and texture. We also see several avenues to improve and generalize
+our correction vector field model. For example, the field depends on
+position only. An anisotropic field, however, could correct strokes
+differently based on their orientation. This could be especially
+beneficial at stroke intersections which we do not explicitly model
+at present. Nevertheless, we have found that our simple isotropic
+field corrects strokes surprisingly well in practice, especially
+around dominant lines for which there is great artistic consensus.
+Moving beyond the single consensus model, we envision automatically
+identifying and classifying artistic ``style'' to provide more
+nuanced stroke correction.
 
-First, we assemble a corpus of aligned drawings via a new iPhone
-game we developed specifically for the purpose of collecting drawing
-data. Second, by analyzing the database of drawings, we build a
-spatially varying model of artistic consensus at the stroke level.
-Using this model, we introduce a surprisingly simple method to
-improve strokes in real-time. Importantly, our corrections appear
-nearly invisible to the user, seamlessly preserving artistic intent
-while simplifying touch-based drawing.
+Stroke correction represents just one application of the large (and
+growing) DrawAFriend image corpus. Thus far, we have explored only a
+small portion of the trove of data we are collecting. For example,
+measuring how quickly drawings are identified could shed light on
+which strokes are most salient for recognition. Studying when the
+user undoes strokes could provide clues as as to which strokes are
+good or bad. Analyzing stroke order could enable us to predict what
+the artist will draw next, potentially enabling completely new
+drawing interactions. Making this data available to the community,
+we hope to explore both these exciting ideas, and discover as-yet
+unkown applications of this rich dataset.
 
-Such stroke
-information could allow us to rigorously answer questions about the
-order in which artists draw lines, and how quickly.
+%  expect to find yet
+% more exciting applications for this new drawing corpus.
+
+% 
+% 
+% when images are guessed correctly
+% 
+% - whether they guessed quickly and how long
+% 	- use this as weights for the consensus.
+% 	- which were most 
+% 
+% For example, we could study 
+% 
+% are using only a
+% small portion of the data
+% 
+%  Rigorous analysis of the data
+% could provide insight into how people draw specific facial features,
+% in what order do artists draw strokes, and which strokes 
+% 
+% First, we assemble a corpus of aligned drawings via a new iPhone
+% game we developed specifically for the purpose of collecting drawing
+% data. 
+% 
+% Such stroke
+% information could allow us to rigorously answer questions about the
+% order in which artists draw lines, and how quickly.
+% 	
+% - we want to learn a lot more from these drawings
+% 	- how to people draw eyes
+% 	- what order do they draw strokes
+% 	- what will they draw next?
+% 
+% 
+% - things that the game tells that we're not yet exploiting
+% 	- how 
+% 	- where they zoom
+% 
+% 
+% - future work
+% 
+% 	-
