@@ -1,0 +1,56 @@
+results:
+
+	- how many drawings did we get
+	- how long did people take to draw them
+	
+	- total number of man-hours devoted playing your game
+	
+	- average # of strokes
+	- average length of strokes
+	- average length of guessing
+	- percent correct and incorrect
+	- short paragraph 
+
+	- Teaser Reported 4 more times
+		4 different celebrities
+		Before and after
+		2 pairs of before and after
+		Same way as the teaser
+		
+		
+weaknesses: 
+
+- even with our enhancements, the drawings are not beautiful
+	- FW: aesthetic enhancements, what the stroke looks like
+
+- we don't anything interesting about intersection
+	- lifting the thing into 3D
+	- but in fact it works really well in practice
+
+- single consensus model: works for certain dominant lines / not for
+	"style" or texture / based on what you're drawing
+	identifying the artist
+
+- we can't correct your strokes
+	- 
+	
+- we want to learn a lot more from these drawings
+	- how to people draw eyes
+	- what order do they draw strokes
+	- what will they draw next?
+
+
+- things that the game tells that we're not yet exploiting
+	- how 
+	- where they zoom
+	- which strokes do they undo?
+		- could that be a clue as to which strokes are good or bad
+	- whether they guessed quickly and how long
+		- use this as weights for the consensus.
+		- which were most salient for recognition
+
+- future work
+
+	- user testing: do people notice that their strokes are being modified. 
+	- user test on the player population / measure how long it takes them to draw images
+	-
