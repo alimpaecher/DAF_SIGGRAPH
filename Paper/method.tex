@@ -7,7 +7,7 @@ Our goal is provide a drawing interface on mobile devices that provides the feel
 \includegraphics[height=2in]{figures/imagetable/edges_bo.png}
 \hspace{0.1in}
 \includegraphics[height=2in]{figures/imagetable/avg_bo.png}
-  \caption{Left: Canny edges, Right: average drawing}
+  \caption{Left: Canny edges, Right: average drawing. Neither of these serves as a simple means to correct strokes due to noisy edges (Canny), and fuzzy and inconsistent edges (average).}
   \label{fig:edges}
 \end{figure}
 
@@ -36,14 +36,14 @@ A correction vector field, $V(p)$, (see Figure~\ref{fig:image-table}(c)and (d)) 
 \begin{figure}
   \centering%
   \includegraphics[width=3.2in]{ellipse.png}
-  \caption{  }
+  \caption{A didactic blow-up of the graphs in Figure~\ref{fig:neighbors}. The point at the origin represents a point on a stroke being drawn. The red points are the set of nearest stroke neighbors from database drawings. Note that the orientation of the strokes are always orthogonal to a vector from the origin. We determine a correction vector based on a learned anisotropic Gaussian surrounding a mode of consensus strokes in the database.}
   \label{fig:ellipse}
 \end{figure}
 
 \begin{figure}
   \centering%
   \includegraphics[width=3.2in]{figures/nearest-neighbor-plots.pdf}
-  \caption{Nearest neighbors and learned gaussian for four points in the Obama dataset.  The gaussian distribution is show with ellipses at the first, second, and third standard deviations.  }
+  \caption{Nearest neighbors and learned Gaussians for four points in the Obama dataset.  The Gaussian distribution is shown with ellipses at the first, second, and third standard deviations.}
   \label{fig:neighbors}
 \end{figure}
 

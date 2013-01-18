@@ -8,16 +8,16 @@ generation of drawing interfaces, applications, and games.
 Unfortunately, the {\em fat finger} phenomenon makes drawing on
 phones and tablets very error prone. We address these problems in
 two ways. First we construct a game, {\em DrawAFriend}, that
-encourages people to draw, and second we use the corpus of drawings
+encourages people to draw. Second, we use the corpus of drawings
 from previous players to aid new drawers to overcome the fat finger
-problem by attracting their strokes to the consensus of previous
+problem by attracting their strokes to the consensus of strokes in previous
 drawings while leaving their individual styles intact. This
 application represents only a first use of a new dataset of hand
 drawings collected by the game.
 
 The central challenge in the quantitative analysis of drawing is
-data scarcity. For example, Google indexes a huge collection of line
-drawings, but these images are stored in raster format with little
+data scarcity. Although search engines index a huge collection of line
+drawings, these images are stored in raster format with little
 or no useful metadata. Ideally, a drawing corpus would contain
 precise stroke-level data for each image, including timing
 information. We would also like semantic metadata identifying
@@ -31,11 +31,11 @@ To address this challenge, we developed \emph{DrawAFriend}, an
 iPhone game specifically designed to collect drawing data, including
 all of the information described above. We currently focus on face
 portraits. Such drawings are exceedingly difficult to draw by hand,
-and even more so using a touch interface. To aid users and to
+and even more so using a touch interface on a small mobile device. To aid users and to
 collect multiple drawings of the same subject, we allow players to
 trace over existing photographs. In its first week of release \daf
 generated over 1,500 images per day. We have only begun to explore
-the trove of information contained in this \daf corpus.
+the trove of information contained in this corpus.
 
 As a first application, we demonstrate how the \daf corpus can be
 mined to provide a self-correcting touch-based drawing interface on
@@ -50,13 +50,13 @@ out the noise and recover the artist's original intent. This allows
 us to develop a real-time {\em self-correcting} touch interface: in
 essence, we clean up the artists drawing as they draw by using data
 from hundreds of previous drawings of the same subject. We analyze
-these images to compute a \emph{correction vector field} that
-directs strokes towards nearby where a nearby consensus of strokes
-has been determined. We further introduce a surprisingly simple
+these images to compute a \emph{correction vector field} that for any location,
+points towards a nearby consensus of strokes. We further introduce a surprisingly simple
 method to correct strokes based on this consensus while maintaining
-the {\em stylistic} choices of the artist. The interface appears
-``invisible'' as the result feels more like the intent of the user
-than the original stroke.
+the {\em stylistic} choices of the artist. The interface requires no new user
+interaction paradigms, in other words, it appears
+``invisible'' to the user. The resulting strokes feel more like the intent of the user
+than the raw original strokes.
 
 % The big data revolution is profoundly transforming computer science
 % and society. Problems which frustrated generations of researchers,
@@ -65,7 +65,7 @@ than the original stroke.
 % see a schism between domains for which large datasets are available
 % such as translation corpuses and those for which it is not,
 % with much more rapid progress in the former.
-% 
+%
 % One domain suffering from such data scarcity is hand-drawn images.
 
 
