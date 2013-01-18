@@ -40,6 +40,13 @@ A correction vector field, $V(p)$, (see Figure~\ref{fig:image-table}(c)and (d)) 
   \label{fig:ellipse}
 \end{figure}
 
+\begin{figure}
+  \centering%
+  \includegraphics[width=3.2in]{figures/nearest-neighbor-plots.pdf}
+  \caption{Nearest neighbors and learned gaussian for four points in the Obama dataset.  The gaussian distribution is show with ellipses at the first, second, and third standard deviations.  }
+  \label{fig:neighbors}
+\end{figure}
+
 
 Given a point $p$ in the image to be drawn, we first find the nearest stroke point, $v_i$ in each drawing, $D_i$, in our training set. We place the nearest points, $v$, in a coordinate system using $p$ as the origin (see the red points in Figure~\ref{fig:ellipse}). One key observation is that the position of the point $v_i$ also encodes the orientation of the nearest stroke in $D_i$. In particular, the stroke orientation will usually be orthogonal to the vector $v_i$ (aside from minor discretization noise), otherwise there would be some closer stroke point. Thus, a series of nearest strokes that are closely aligned in position and orientation will produce a set of nearest points, $v$, that lie approximately along a line, and this line will intersect the origin (i.e., the point $p$).
 
@@ -62,11 +69,11 @@ with the anisotropic standard deviations given by
 \sigma_1 =  \sqrt{\left(\sum_j w_j (({\bf v}_j-\mu)^{\bf T}\nu)^2\right) / \sum_j w_j} \label{sig1}\\
 \sigma_2 =  \sqrt{\left(\sum_j w_j ({\bf v}_j^{\bf T}\nu_\perp)^2\right) / \sum_j w_j} \label{sig2}
 \end{eqnarray}
-We then reweight all points according to the new gaussian distribution, including a simple regularization ${\bf w} = {\bf w}/ ({\bf w}+0.05)$.  The regularization serves to reinforce points near the mean, and further discount points away from the mean. The term 0.05, which intuitively says that any points more than two standard deviations away from the mean are mostly noise, was chosen experimentally.
+We then reweight all points according to the new gaussian distribution, including a simple regularization $w_i \leftarrow w_i/ (w_i+0.05)$.  The regularization serves to reinforce points near the mean, and further discount points away from the mean. The term 0.05, which intuitively says that any points more than two standard deviations away from the mean are mostly noise, was chosen experimentally.
 
-The system typically converges quickly (all of our experiments use a hard-coded 10 iterations), and $V(p)$ is set to $\mu$.
+The system typically converges quickly (all of our experiments use a hard-coded 10 iterations), and $V(p)$ is set to $\mu$.  Examples of nearest neighbor sets and their resulting consensus strokes are shown in Figure \ref{fig:neighbors}.
 
-\subsection{Laplacian Stroke Morphing}
+\subsection{Real-time Stroke Correction}
 
 
 The vector field, $V$, defined above indicates a best guess of how any individual vertex on a stroke polyline should move to match the consensus of all drawings.
