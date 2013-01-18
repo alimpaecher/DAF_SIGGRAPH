@@ -21,16 +21,16 @@ Instead, we develop a stroke correction strategy with two phases.
 
 \subsection{The Correction Vector Field}
 
-\begin{figure}
-  \centering%
-\includegraphics[height=2in]{figures/imagetable/mag_bo.png}
-\hspace{0.1in}
-\includegraphics[height=2in]{figures/imagetable/dir_bo.png}
-  \caption{Left: vector magnitude, Right: sampled vector field orientations}
-  \label{fig:vectorfield}
-\end{figure}
+%\begin{figure}
+%  \centering%
+%\includegraphics[height=2in]{figures/imagetable/mag_bo.png}
+%\hspace{0.1in}
+%\includegraphics[height=2in]{figures/imagetable/dir_bo.png}
+%  \caption{Left: vector magnitude, Right: sampled vector field orientations}
+%  \label{fig:vectorfield}
+%\end{figure}
 
-A correction vector field, $V(p)$, (see Figure~\ref{fig:vectorfield}) is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
+A correction vector field, $V(p)$, (see Figure~\ref{fig:image-table}(c)and (d)) is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
 
 
 \begin{figure}
@@ -73,7 +73,7 @@ The vector field, $V$, defined above indicates a best guess of how any individua
 
 The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k)$, and simply move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost. The fat finger problem is likely to cause the input stroke to be off primarily in displacement, while the overall stroke shape can be more trusted to represent the user's {\em intent}.
 
-Our goal is thus to use the guidance of the vector field on where to move, but still maintain most of the shape of the original stroke.  We therefore create and solve an over-constrained linear system that represents both of those objectives.  
+Our goal is thus to use the guidance of the vector field on where to move, but still maintain most of the shape of the original stroke.  We therefore create and solve an over-constrained linear system that represents both of those objectives.
 
 With $p_i$ representing input stroke sample locations for $i=1\ldots k$, $V_i$ a shorthand for $V(p_i)$ representing the correction vector field at $p_i$, and $p_i'$ representing the corrected samples, we construct a quadratic error function as:
 
