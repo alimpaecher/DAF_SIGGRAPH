@@ -1,4 +1,29 @@
 \section{Results}
+<<<<<<< HEAD
+
+\subsection{DrawAFriend Game Statistics}
+
+On January 8th 2013 the DrawAFriend game officially launched. Overall, the DrawAFriend game was successful right out the gate. By Jaunuary 11th players had downloaded the game over 200 times, started 2191 games, and created 6373 drawings.In total players had spent just under 10 full 24 hour days drawing. The following statistics use the dataset collected in those first 4 days.
+
+Players are given the option of drawing Facebook Friends or one of six celebrities (Robert Downey Jr., Angelina Jolie, Kim Kardashian, Barack Obama, Brad Pitt, or Kristen Stewart) when playing DrawAFriend. Of that dataset, we manually chose 611 celebrity drawings to be used for analysis. The stats in the \ref{fig:daf-stats} table reference the 611 drawings.
+
+\begin{figure}[b]
+  \centering%
+\includegraphics[height=1.1in]{./figures/daf-stats-cropped.pdf}
+  \caption{Celebrity Drawing Stats}
+  \label{fig:daf-stats}
+\end{figure}
+
+From those 611 drawings we used the mean shift solver to create the correction vector fields. Using Matlab the solver took approximately 5 minutes for each celebrity. The great majority of the time was spent in un-optimized nearest neighbor finding.
+
+\subsection {Drawing Enhancements}
+
+We applied the correction vector field to interactively modify strokes during the drawing process (see accompanying video). Without no additional user interface elements to the existing DrawAFriend UI, we seamlessly added stroke auto-correction. As the user draws, strokes are subtly corrected at interactive rates on an iPhone 4. In general, the fact that corrections are being applied is almost invisible to the user. Instead, strokes appear where the user {\em intended} to draw. 
+
+%????Please see the \alex{Not sure how to reference the teaser on top} and the video for interactive examples.
+
+We also applied the correction vector field retrospectively to improve the existing database of user drawings. The drawings are already quite good, thus making the corrections made by the vector field all the more impressive.  While the algorithm universally improves the images by making the celebrity far more recognizable, it does so without sacrificing style. For comparisons of the raw drawings and the corrected images please see our video and the supplementary files (mouse over images to flip between the raw strokes and corrected strokes).
+=======
 \subsection{DrawAFriend Game Stats}
 On January 8th 2013 the DrawAFriend game officially launched. Overall the DrawAFriend game was sucessful right out the gate. By Jaunuary 11th players had downloaded the game over 200 times, started 2191 games, and created 6373 drawings.In total players had spent just under 10 full 24 hour days drawing. The following statistics use the dataset collected in those first 4 days. 
 
@@ -24,6 +49,7 @@ A second applicaiton of the correction vector field is to interactively modify s
 
 
 
+>>>>>>> 2dcaa65b98cb4a357ff54c1b0efa48d20d2f8d58
 
 \begin{figure}
 \centering
@@ -39,4 +65,3 @@ A second applicaiton of the correction vector field is to interactively modify s
 \caption{DrawAFriend users draw one of six celebrities (a). We use our database of hundreds of drawings per subject -- shown averaged in (b) -- to precompute a \emph{correction vector field} (c) enabling real-time drawing assistance on the iPhone. The magnitude of our vector field (d) reveals a consensus of artistic renderings strikingly different than what we could compute with automated methods, such as a canny edge detector (e).}
 \label{fig:image-table}
 \end{figure}
-% a test edit by Michael
