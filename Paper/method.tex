@@ -78,7 +78,7 @@ Our goal is thus to use the guidance of the vector field on where to move, but s
 With $p_i$ representing input stroke sample locations for $i=1\ldots k$, $V_i$ a shorthand for $V(p_i)$ representing the correction vector field at $p_i$, and $p_i'$ representing the corrected samples, we construct a quadratic error function as:
 
 \begin{equation}
-E = \alpha \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \sum_{i=i-1}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
+E = \alpha \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \sum_{i=2}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
 \end{equation}
 
 The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with a standard least squares solver on the $2k-1$ terms.
@@ -87,7 +87,7 @@ The first term represents the faithfulness to the correction vector field. The s
 
 A higher $\alpha$ value results in {\em stiffer} strokes in the sense that they maintain their shape instead of following variations in the vector field precisely. Aside from maintaining the {\em style} of the strokes, a high stiffness also help avoid having part of a stroke pulled in one direction and another part pulled in another. This can happen especially when there are two closely space parallel lines in the consensus, such as the two sides of the nose, or the bottom and top of the lips. Unfortunately, a very high $\alpha$ does not allow the strokes to adapt at all to the subtleties of the consensus drawing represented in the vector field.
 
-To achieve the goals of avoiding the two nearby stroke problem while balancing stiffness and style, we use a {\em continuation method}, performing three iterations of the solver described above. We begin with $\alpha=10$. This high stiffness value leads to an almost rigid transformation of the stroke. We then lower $\alpha$ to 7, and feed the previous result, $\hat{p}$ into the first error term, $(p_i' - (\hat{p}_i + V_i)$, while keeping the original terms for the latter half of the error measure, and solve the new system. We repeat this one final time with $\alpha=4$ to get our final result. The $\alpha$ values (10,7,4) were chosen experimentally.
+To achieve the goals of avoiding the two nearby stroke problem while balancing stiffness and style, we use a {\em continuation method}, performing three iterations of the solver described above. We begin with $\alpha=10$. This high stiffness value leads to an almost rigid transformation of the stroke. We then lower $\alpha$ to 7, and feed the previous result, $\hat{p}$ into the first error term, $(p_i' - (\hat{p}_i + V_i))$, while keeping the original terms for the latter half of the error measure, and solve the new system. We repeat this one final time with $\alpha=4$ to get our final result. The $\alpha$ values (10,7,4) were chosen experimentally.
 
 \subsubsection{Purely Stylistic Strokes}
 
