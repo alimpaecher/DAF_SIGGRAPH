@@ -1,6 +1,6 @@
 \section{Data Driven Drawing}
 
-Our goal is provide a drawing interface on mobile device that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system by using a tracing paradigm. The simplest idea would to be to attract drawn strokes to edges found in the image being traced. Unfortunately, this idea fails in two respects. First edge detectors such as Canny methods (see Figure~\ref{fig:edges}, left) have no notion of semantics and thus appear noisy and inconsistent. Second, humans tend to select only the most meaningful edges to draw.
+Our goal is provide a drawing interface on mobile devices that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system by using a tracing paradigm. The simplest idea would to be to attract drawn strokes to edges found in the image being traced. Unfortunately, this idea fails in two respects. First edge detectors such as Canny methods (see Figure~\ref{fig:edges}, left) have no notion of semantics and thus appear noisy and inconsistent. Second, humans tend to select only the most meaningful edges to draw.
 
 \begin{figure}
   \centering%
@@ -16,7 +16,7 @@ To provide assistance, we take advantage of previous drawings of the same face a
 Instead, we develop a stroke correction strategy with two phases.
 \begin{itemize}
 \item Consensus Finding: Using the training drawings available for an image, we create a correction vector field, which indicates for each pixel on the image, the delta toward the nearest {\em consensus line}.  This phase is run off-line.
-\item Real-time Correction: The correction vector field is transmitted to the mobile device along with the image to be traced.  When a user draws a stroke, the field is sampled along the path of the stroke, and the stroke is moved in such a way to balance stroke style and follow the correction field.
+\item Real-time Correction: The correction vector field is transmitted to the mobile device along with the image to be traced.  When a user draws a stroke, the field is sampled, and the stroke is moved in a way that maintains the original style.
 \end{itemize}
 
 \subsection{The Correction Vector Field}
@@ -41,7 +41,7 @@ A correction vector field, $V(p)$, (see Figure~\ref{fig:image-table}(c)and (d)) 
 \end{figure}
 
 
-Given a point $p$ in the image to be drawn, we first find the nearest stroke point, $v_i$ in each drawing, $D_i$, in our training set. We place the nearest points, $v$, in a coordinate system using $p$ as the origin (see the red points in Figure~\ref{fig:ellipse}). One key observation is that the position of the point $v_i$ also encodes the orientation of the nearest stroke in $D_i$. In particular, the stroke orientation will always be orthogonal to the vector $v_i$ (aside from minor discretization noise), otherwise there would be some closer stroke point. Thus, a series of nearest strokes that are closely aligned in position and orientation will produce a set of nearest points, $v$, that lie approximately along a line, and this line will intersect the origin (i.e., the point $p$).
+Given a point $p$ in the image to be drawn, we first find the nearest stroke point, $v_i$ in each drawing, $D_i$, in our training set. We place the nearest points, $v$, in a coordinate system using $p$ as the origin (see the red points in Figure~\ref{fig:ellipse}). One key observation is that the position of the point $v_i$ also encodes the orientation of the nearest stroke in $D_i$. In particular, the stroke orientation will usually be orthogonal to the vector $v_i$ (aside from minor discretization noise), otherwise there would be some closer stroke point. Thus, a series of nearest strokes that are closely aligned in position and orientation will produce a set of nearest points, $v$, that lie approximately along a line, and this line will intersect the origin (i.e., the point $p$).
 
 Our goal is find a consensus of nearby strokes that avoids undue influence from outliers. For the points, $v$, we seek a {\em mode} in which the points lie in close proximity to each other and lie roughly along a line pointing back towards the origin. We employ an iterative mean shift style algorithm for the mode finding.
 
@@ -62,16 +62,16 @@ with the anisotropic standard deviations given by
 \sigma_1 =  \sqrt{\left(\sum_j w_j (({\bf v}_j-\mu)^{\bf T}\nu)^2\right) / \sum_j w_j} \label{sig1}\\
 \sigma_2 =  \sqrt{\left(\sum_j w_j ({\bf v}_j^{\bf T}\nu_\perp)^2\right) / \sum_j w_j} \label{sig2}
 \end{eqnarray}
-We then reweight all points according to the new gaussian distribution, including a simple regularization ${\bf w} = {\bf w}/ ({\bf w}+0.05)$.  The regularization serves to reinforce points near the mean, and further discount points away from the mean. The term 0.05 which intuitively says that any points more than two standard deviations away from the mean are mostly noise, was chosen experimentally.
+We then reweight all points according to the new gaussian distribution, including a simple regularization ${\bf w} = {\bf w}/ ({\bf w}+0.05)$.  The regularization serves to reinforce points near the mean, and further discount points away from the mean. The term 0.05, which intuitively says that any points more than two standard deviations away from the mean are mostly noise, was chosen experimentally.
 
-The iterations end when $\mu$ stops moving, and $V(p)$ is set to $\mu$.
+The system typically converges quickly (all of our experiments use a hard-coded 10 iterations), and $V(p)$ is set to $\mu$.
 
 \subsection{Laplacian Stroke Morphing}
 
 
 The vector field, $V$, defined above indicates a best guess of how any individual vertex on a stroke polyline should move to match the consensus of all drawings.
 
-The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k)$, and simply move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost. The fat finger problem is likely to cause the input stroke to be off primarily in displacement, while the overall stroke shape can be more trusted to represent the user's {\em intent}.
+The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k))$, and directly move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost.  To move away from the naive approach, we recognize that the fat finger problem is likely to cause the input stroke to be off by a roughly constant displacement, while the original stroke shape is likely to represent the user's {\em intent}.
 
 Our goal is thus to use the guidance of the vector field on where to move, but still maintain most of the shape of the original stroke.  We therefore create and solve an over-constrained linear system that represents both of those objectives.
 
@@ -91,7 +91,7 @@ To achieve the goals of avoiding the two nearby stroke problem while balancing s
 
 \subsubsection{Purely Stylistic Strokes}
 
-We also found that some strokes are purely stylistic in nature. For example, some writes "Obama" above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $|V_i|$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direct is mostly orthogonal to the vector field. The latter term is measured with the average of the angle cosines $(\tilde{(p_i - p_{i-1})} \cdot \tilde{V_i})$ where the {\em tilded} vector represent unit vectors. If the average is below 0.5, it is considered purely stylistic.
+We also found that some strokes are purely stylistic in nature. For example, some writes "Obama" above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $|V_i|$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direction is mostly orthogonal to the vector field. The latter term is measured with the average of the angle cosines $(\tilde{(p_i - p_{i-1})} \cdot \tilde{V_i})$ where the {\em tilded} vector represent unit vectors. If the average is below 0.5, it is considered purely stylistic.
 
 
 
