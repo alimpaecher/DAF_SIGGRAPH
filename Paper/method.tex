@@ -98,7 +98,7 @@ To achieve the goals of avoiding the two nearby stroke problem while balancing s
 
 \subsubsection{Purely Stylistic Strokes}
 
-We also found that some strokes are purely stylistic in nature. For example, some writes "Obama" above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $|V_i|$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direction is mostly orthogonal to the vector field. The latter term is measured with the average of the angle cosines $(\tilde{(p_i - p_{i-1})} \cdot \tilde{V_i})$ where the {\em tilded} vector represent unit vectors. If the average is below 0.5, it is considered purely stylistic.
+We also found that some strokes are purely stylistic in nature. For example, some writes "Obama" above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $\max_i||V(p_i)||$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direction is mostly orthogonal to the vector field. The latter term is measured with the average of absolute cosines $\frac{1}{N}\sum_i||N(p_i - p_{i-1}) \cdot N(V(p_i))||\textrm{,}$ where $N(\cdot)$ normalizes vectors. If the average falls below 0.5, the stroke is considered purely stylistic.
 
 
 
