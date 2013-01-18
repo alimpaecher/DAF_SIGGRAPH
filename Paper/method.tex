@@ -14,10 +14,10 @@ Our goal is provide a drawing interface on mobile devices that provides the feel
 To provide assistance, we take advantage of previous drawings of the same face and then pull the users strokes towards a {\em consensus} of previous drawings when the user's stroke appear to approximate the local consensus. The simplest idea for forming a consensus would be to use an {\em average} drawing (see Figure~\ref{fig:edges}, right). This idea is also very problematic as the averages tend to create very fat lines of varying darkness and broad region such as in the hair. Although some kind of {\em skeletonization} may aid the first problem it would fail on the second.
 
 Instead, we develop a stroke correction strategy with two phases.
-\begin{itemize}
-\item Consensus Finding: Using the training drawings available for an image, we create a correction vector field, which indicates for each pixel on the image, the delta toward the nearest {\em consensus line}.  This phase is run off-line.
-\item Real-time Correction: The correction vector field is transmitted to the mobile device along with the image to be traced.  When a user draws a stroke, the field is sampled, and the stroke is moved in a way that maintains the original style.
-\end{itemize}
+
+\textbf{(i) Consensus Finding:} Using the training drawings available for an image, we create a correction vector field, which indicates for each pixel on the image, the delta toward the nearest {\em consensus line}.  This phase is run off-line.
+
+\textbf{(ii) Interactive Correction:} The correction vector field is transmitted to the mobile device along with the image to be traced.  When a user draws a stroke, the field is sampled, and the stroke is moved in a way that maintains the original style.
 
 \subsection{The Correction Vector Field}
 
@@ -30,7 +30,7 @@ Instead, we develop a stroke correction strategy with two phases.
 %  \label{fig:vectorfield}
 %\end{figure}
 
-A correction vector field, $V(p)$, (see Figure~\ref{fig:image-table}(c)and (d)) is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. To compute $V$, we use a modified version of the iterative mode finding in {\em mean shift}~\cite{10.1109/ICCV.1999.790416}.
+A correction vector field, $V(p)$, (see Figure~\ref{fig:image-table}(c)and (d)) is constructed to point, for each location in the image, towards the nearest {\em consensus stroke}, which intuitively represents a stroke that appears in many drawings. Interestingly, we do not need to construct an explicit model of these consensus strokes. Instead, we can directly compute $V$ using a modified version of the {\em mean shift} algorithm~\cite{10.1109/ICCV.1999.790416}.
 
 
 \begin{figure}
