@@ -1,13 +1,5 @@
 \section{Results}
 
-\begin{figure*}
-  \centering%
-\includegraphics[width=7in]{./figures/ResultsAll.pdf}
-  \caption{Celebrity drawings: original strokes (bottom rows) and after automatic adjustment to consensus (top rows). (Please see the supplementary files for more examples and also for an interface so you can flip between them.)}
-  \label{fig:results}
-\end{figure*}
-
-
 \subsection{DrawAFriend Game Statistics}
 
 After smaller-scale trials, DrawAFriend was released publicly on January 8th, 2013. Our player recruitment strategy was very successful: by the fourth day, players had downloaded the game over 2000 times and created 6373 drawings. In total, players had already spent approximately 10 full 24 hour days drawing. The drawings used to create the consensus came from these four days after release.
@@ -45,3 +37,12 @@ We also applied the correction vector field retrospectively to improve the exist
 \caption{DrawAFriend users draw one of six celebrities (a). We use our database of hundreds of drawings per subject -- shown averaged in (b) -- to precompute a \emph{correction vector field} (c) enabling real-time drawing assistance on the iPhone. The magnitude of our vector field (d) reveals a consensus of artistic renderings strikingly different than what we could compute with automated methods, such as a canny edge detector (e).}
 \label{fig:image-table}
 \end{figure}
+
+\begin{figure*}[!t]
+  \centering%
+\includegraphics[width=7in]{./figures/ResultsAll.pdf}
+\vspace{-0.35in}
+  \caption{Celebrity drawings: original strokes (bottom rows) and after automatic adjustment to consensus (top rows). (Please see the supplementary files for more examples and also for an interface so you can flip between them.)}
+\vspace{-0.25in}
+  \label{fig:results}
+\end{figure*}
