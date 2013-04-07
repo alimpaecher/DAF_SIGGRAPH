@@ -13,7 +13,7 @@ Players were given the option of drawing Facebook friends or one of an initial s
   \label{fig:daf-stats}
 \end{figure}
 
-We ran our modified mean shift algorithm on this initial dataset to create the correction vector fields shown in Figure \ref{fig:image-table}. Our MATLAB implementation took under 5 minutes for each celebrity.  The great majority of the time was spent in un-optimized nearest neighbor search. The correction vector field had the dimensions of 460x320. In Figure \ref{daf-convergence} we plot how our correction vector field converges for Borack Obama, by calculating the vector field for a subset of the drawings. There appears to be an inflection point around 25 drawing, at which point the correction vector field would probably work well. However every drawing still improves the correction field, implying that after 130 drawings the correction vector field has not completely converged. 
+We ran our modified mean shift algorithm on this initial dataset to create the correction vector fields shown in Figure \ref{fig:image-table}. Our MATLAB implementation took under 5 minutes for each celebrity.  The great majority of the time was spent in un-optimized nearest neighbor search. The correction vector field had the dimensions of 460x320. In Figure \ref{fig:daf-convergence} we plot how our correction vector field converges for Borack Obama, by calculating the vector field for a subset of the drawings. There appears to be an inflection point around 25 drawing, at which point the correction vector field would probably work well. However every drawing still improves the correction field, implying that after 130 drawings the correction vector field has not completely converged. 
 
 \begin{figure}
   \centering%
