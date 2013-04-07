@@ -25,7 +25,7 @@ We ran our modified mean shift algorithm on this initial dataset to create the c
 
 \subsection {Drawing Enhancements}
 
-We applied the correction vector field to interactively modify strokes during the drawing process. With no additional user interface elements to the existing DrawAFriend UI, we seamlessly add stroke auto-correction. As the user draws, strokes are subtly corrected at interactive rates on an iPhone 4. In general, the fact that corrections are being applied is almost invisible to the user. Instead, strokes appear where the user {\em intended} to draw.
+We applied the correction vector field to interactively modify strokes during the drawing process. For every new stroke point added a background thread is spun off to correct the new stroke. Once the thread completes if new points have accumulated another thread is immediately spun off. With no additional user interface elements to the existing DrawAFriend UI, we seamlessly add stroke auto-correction. As the user draws, strokes are subtly corrected at interactive rates on an iPhone 4. In general, the fact that corrections are being applied is almost invisible to the user. Instead, strokes appear where the user {\em intended} to draw.
 
 %????Please see the \alex{Not sure how to reference the teaser on top} and the video for interactive examples.
 
