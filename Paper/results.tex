@@ -1,10 +1,10 @@
 \section{Results}
+After smaller-scale trials, DrawAFriend was released publicly on January 8th, 2013. In 88 days there were 14,270 drawings. There were three steps that were taken after the initial launch of DrawAFriend. First we collected drawings from six celebrities to create our initial correction vector field. Second we use the correction field to create an automatic stroke correction helper in the game. Lastly we evaluated the accuracy of our stroke correction helper by comparing the drawings created with and without it. 
 
-\subsection{DrawAFriend Game Statistics}
+\subsection{DrawAFriend Correction Vector Field}
+In order to place the correction vector field into the game, we needed to prime it with some initial drawings. After four days the game had downloaded the game over 2000 times and created 6373 drawings. In total, players had already spent approximately 10 full 24 hour days drawing. We used these drawings to create the consensus came.
 
-After smaller-scale trials, DrawAFriend was released publicly on January 8th, 2013. Our player recruitment strategy was very successful: by the fourth day, players had downloaded the game over 2000 times and created 6373 drawings. In total, players had already spent approximately 10 full 24 hour days drawing. The drawings used to create the consensus came from these four days after release.
-
-Players were given the option of drawing Facebook friends or one of an initial set of six celebrities: Robert Downey Jr., Angelina Jolie, Kim Kardashian, Barack Obama, Brad Pitt, or Kristen Stewart. From the drawings generated in the first four days, we manually chose 611 celebrity drawings to be used for analysis. The statistics in Figure \ref{fig:daf-stats} reference the 611 drawings.
+Players were given the option of drawing Facebook friends or one of an initial set of six celebrities: Robert Downey Jr., Angelina Jolie, Kim Kardashian, Barack Obama, Brad Pitt, or Kristen Stewart. From the drawings generated in the first four days, we manually chose 611 celebrity drawings to be used for analysis. Drawings that were chosen were ones where players had made an attempt to somewhat accurately draw the eyes. For this initial dataset this was about 10\%. The rest of the dataset had a large percentage of drawings where players had quickly drawn probably without zooming, and thus resembled a person like scribble. While the rest of the dataset could be used for analysis, we did not train our correction vector field on it.   The statistics in Figure \ref{fig:daf-stats} reference the 611 drawings.
 
 \begin{figure}[b]
   \centering%
@@ -40,14 +40,14 @@ Our results show that universally autocorrect reduced undo rates (the ratio of u
 
 \begin{figure}
   \centering%
-\includegraphics[width=3.5in]{./figures/userstudy/undo.pdf}
+\includegraphics[width=3.5in]{./figures/userstudy/cdfUndos_chart.png}
   \caption{Temporary undo chart}
   \label{fig:daf-undo}
 \end{figure}
 
 \begin{figure}
   \centering%
-\includegraphics[width=3.5in]{./figures/userstudy/obamaConvergence_chart.pdf}
+\includegraphics[width=3.5in]{./figures/userstudy/convergenceWithVar_131.png}
   \caption{Temporary Convergence Data, Trying to Smooth it out}
   \label{fig:daf-convergence}
 \end{figure}
