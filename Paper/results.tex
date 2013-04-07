@@ -4,7 +4,7 @@ After smaller-scale trials, DrawAFriend was released publicly on January 8th, 20
 \subsection{DrawAFriend Correction Vector Field}
 In order to place the correction vector field into the game, we needed to prime it with some initial drawings. After four days the game had downloaded the game over 2000 times and created 6373 drawings. In total, players had already spent approximately 10 full 24 hour days drawing. We used these drawings to create the consensus came.
 
-Players were given the option of drawing Facebook friends or one of an initial set of six celebrities: Robert Downey Jr., Angelina Jolie, Kim Kardashian, Barack Obama, Brad Pitt, or Kristen Stewart. From the drawings generated in the first four days, we manually chose 611 celebrity drawings to be used for analysis. Drawings that were chosen were ones where players had made an attempt to somewhat accurately draw the eyes. For this initial dataset this was about 10\%. The rest of the dataset had a large percentage of drawings where players had quickly drawn probably without zooming, and thus resembled a person like scribble. While the rest of the dataset could be used for analysis, we did not train our correction vector field on it.   The statistics in Figure \ref{fig:daf-stats} reference the 611 drawings.
+Players were given the option of drawing Facebook friends or one of an initial set of six celebrities: Robert Downey Jr., Angelina Jolie, Kim Kardashian, Barack Obama, Brad Pitt, or Kristen Stewart. From the drawings generated in the first four days, we manually chose 611 celebrity drawings to be used for analysis. Drawings that were chosen were ones where players had made an attempt to somewhat accurately draw the eyes. For this initial dataset this was about 10\%. The rest of the dataset had a large percentage of drawings where players had quickly drawn probably without zooming, and thus resembled a person like scribble. While the rest of the dataset could be used for analysis, we did not train our correction vector field on it.  The statistics in Figure \ref{fig:daf-stats} reference the 611 drawings.
 
 \begin{figure}[b]
   \centering%
@@ -13,11 +13,19 @@ Players were given the option of drawing Facebook friends or one of an initial s
   \label{fig:daf-stats}
 \end{figure}
 
-We ran our modified mean shift algorithm on this initial dataset to create the correction vector fields shown in Figure \ref{fig:image-table}. Our MATLAB implementation took under 5 minutes for each celebrity. The great majority of the time was spent in un-optimized nearest neighbor search.
+We ran our modified mean shift algorithm on this initial dataset to create the correction vector fields shown in Figure \ref{fig:image-table}. Our MATLAB implementation took under 5 minutes for each celebrity. The great majority of the time was spent in un-optimized nearest neighbor search. In Figure \ref{daf-convergence} we plot how our correction vector field converges for Borack Obama, by calculating the vector field for a subset of the drawings. There appears to be an inflection point around 25 drawing, at which point the correction vector field would probably work well. However every drawing still appears to improve the correction field, and even with 131 drawings the correction vector field has not completely converged. 
+
+\begin{figure}
+  \centering%
+\includegraphics[width=3.5in]{./figures/userstudy/convergenceWithVar_131.png}
+  \caption{Temporary Convergence Data, Trying to find out what causes bumps }
+  \label{fig:daf-convergence}
+\end{figure}
+
 
 \subsection {Drawing Enhancements}
 
-We applied the correction vector field to interactively modify strokes during the drawing process in an enhanced, as yet unreleased, version of the game (see accompanying video). With no additional user interface elements to the existing DrawAFriend UI, we seamlessly add stroke auto-correction. As the user draws, strokes are subtly corrected at interactive rates on an iPhone 4. In general, the fact that corrections are being applied is almost invisible to the user. Instead, strokes appear where the user {\em intended} to draw.
+We applied the correction vector field to interactively modify strokes during the drawing process. With no additional user interface elements to the existing DrawAFriend UI, we seamlessly add stroke auto-correction. As the user draws, strokes are subtly corrected at interactive rates on an iPhone 4. In general, the fact that corrections are being applied is almost invisible to the user. Instead, strokes appear where the user {\em intended} to draw.
 
 %????Please see the \alex{Not sure how to reference the teaser on top} and the video for interactive examples.
 
@@ -29,14 +37,7 @@ In order to test the effectiveness of the stroke auto-correction, we instrumente
 \subsubsection {User Study Results}
 500 players have "contributed" to the study which AB-tests the effect of our auto-correct on over 1300 drawings. Using this data we can assess recognition rates (measuring how good drawings are from the perspective of others). We also analyze undo rates (providing an insight into how artists like their own drawings). Finally we measure average "distance" from the artistic consensus (measuring how carefully artists are drawing). 
 
-Our results show that universally autocorrect reduced undo rates (the ratio of undos to all other strokes). This effect is magnified for careful drawers (who undid 30\% or more strokes). Their undo rates decreased by a significant 5\% (Wilcoxian p-value = .045).  We view the drop in undo rates as an improvement in how players view their own drawings. Likewise we observe a significant change in the average distance to the consensus drawings. It increases by 18\% when our auto-corrector has turned on with a (p=1.65e-06), suggesting that artists do not need to draw as precisely. Interestingly, statistical analysis reveals that the auto-corrector does not significantly alter recognizability. We believe that our auto-corrector does not change players’ drawing quality. Rather it makes reaching this level of quality easier by requiring less undos and less accuracy.
-
-\begin{figure}
-  \centering%
-\includegraphics[width=3.5in]{./figures/userstudy/distanceToConsensus.pdf}
-  \caption{The average distance to the consensus for each celebrity.}
-  \label{fig:daf-distance}
-\end{figure}
+Our results show that universally autocorrect reduced undo rates (the ratio of undos to all other strokes). This effect is magnified for careful drawers (who undid 30\% or more strokes). Their undo rates decreased by a significant 5\% (Wilcoxian p-value = .045).  Before we analyzed the undo rates we removed all drawings that had 0 undos (assuming these players did not know undo existed) and all drawings with less than 10 undone strokes (assuming these drawings were not actually drawings of the celebrity).  We view the drop in undo rates as an improvement in how players view their own drawings.  
 
 \begin{figure}
   \centering%
@@ -45,12 +46,18 @@ Our results show that universally autocorrect reduced undo rates (the ratio of u
   \label{fig:daf-undo}
 \end{figure}
 
+Likewise we observe a significant change in the average distance to the consensus drawings. In figure  It increases by 18\% when our auto-corrector has turned on with a (p=1.65e-06), suggesting that artists do not need to draw as precisely. Figure \ref{fig:daf-distance} show the average distance to the consensus for each celebrity.
+
 \begin{figure}
   \centering%
-\includegraphics[width=3.5in]{./figures/userstudy/convergenceWithVar_131.png}
-  \caption{Temporary Convergence Data, Trying to Smooth it out}
-  \label{fig:daf-convergence}
+\includegraphics[width=3.5in]{./figures/userstudy/distanceToConsensus.pdf}
+  \caption{The average distance to the consensus for each celebrity.  fix caption}
+  \label{fig:daf-distance}
 \end{figure}
+
+Interestingly, statistical analysis reveals that the auto-corrector does not significantly alter recognizability. We believe that our auto-corrector does not change players’ drawing quality. Rather it makes reaching this level of quality easier by requiring less undos and less accuracy.
+
+
 
 
 
