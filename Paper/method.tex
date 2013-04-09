@@ -11,7 +11,7 @@ Our goal is to provide a drawing interface on mobile devices that provides the f
   \label{fig:edges}
 \end{figure}
 
-To provide assistance, we take advantage of previous drawings of the same face and then pull the users strokes towards a {\em consensus} of strokes from previous drawings. The simplest idea for forming a consensus would be to use an {\em average} drawing (see Figure~\ref{fig:edges}, right). This idea is also very problematic as the averages tend to create very fat lines of varying darkness as well as broad regions such as in the hair. Although some kind of {\em skeletonization} may aid the first problem, it would fail on the second.
+To provide assistance, we take advantage of previous drawings of the same face and then pull the users strokes towards a {\em consensus} of strokes from previous drawings. The simplest idea for forming a consensus would be to use an {\em average} drawing (see Figure~\ref{fig:edges}, right). This idea is also very problematic as the averages tend to create very fat lines of varying darkness, as well as broad regions such as in the hair. Although some kind of {\em skeletonization} may aid the first problem, it would fail on the second.
 
 Instead, we develop a stroke correction strategy with two phases.
 
@@ -48,21 +48,20 @@ A correction vector field, $V(p)$, (see Figure~\ref{fig:image-table}(c)and (d)) 
 \end{figure}
 
 
-Given a point $p$ on a stroke in the image being drawn, we first find the nearest stroke point, $v_i$ in each drawing, $D_i$, in our training set. We place the nearest points, $v$, in a coordinate system using $p$ as the origin (see the red points in Figure~\ref{fig:ellipse} and the points in Figure~\ref{fig:neighbors}). One key observation is that the position of the point $v_i$ also encodes the orientation of the nearest stroke in $D_i$. In particular, the stroke orientation will usually be orthogonal to the vector $v_i$ (aside from minor discretization noise), otherwise there would be some closer stroke point. Thus, a series of nearest strokes that are closely aligned in position and orientation will produce a subset of the nearest points, $v$, that lie approximately along a line, and this line will intersect the origin (i.e., the point $p$). We use this observation to build the consensus of nearby strokes.
+Given a point $p$ on a stroke in the image being drawn, we first find the nearest stroke point, $v_i$ in each drawing, $D_i$, in our training set. We place the nearest points, $v$, in a coordinate system using $p$ as the origin (see the red points in Figure~\ref{fig:ellipse} and the points in Figure~\ref{fig:neighbors}). One key observation is that the position of the point $v_i$ also implicitly encodes the orientation of the nearest stroke in $D_i$. In particular, the stroke orientation will be orthogonal to the vector $v_i$ (unless the nearest point is a stroke endpoint). Otherwise there would be some closer point along the stroke. Thus, if the nearest strokes from different users are closely aligned in position and orientation, they will produce a set of the nearest points, $v$, that lie approximately along a line. Furthermore, this line will intersect the origin (i.e., the point $p$). We use this observation to build the consensus of nearby strokes.
 
 Our goal is find a consensus of nearby strokes that avoids undue influence from outliers. For the points, $v$, we seek a {\em mode} in which the points lie in close proximity to each other and lie roughly along a line pointing back towards the origin. We employ an iterative mean shift style algorithm for the mode finding.
 
 Our algorithm works by iteratively updating a vector of weights, {\bf w}, which represent the belief that a particular nearest point, $v_i$, is a member of the consensus stroke. The final correction vector, $V(p)$, is determined by the weighted mean of the points, $v$. We initialize all weights using a symmetric Gaussian centered at the origin, with $\sigma$ equal to the mean distance to all nearest points, $v$.
 
-The iterations proceed by determining an anisotropic Gaussian with weighted mean, $\mu$ (equation~\ref{mean}),
-$\sigma_1$ in the direction back toward the origin (equation~\ref{sig1}), and ($\sigma_2$) in the orthogonal direction (equation~\ref{sig2}). The mean is given by:
-\begin{equation}
-{\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j  \label{mean}
-\end{equation}
-and we define the normalized mean vector as,
-\begin{equation}
-{\bf \nu} = \mu/||\mu||
-\end{equation}
+The iterations proceed by determining an anisotropic Gaussian with weighted mean, ${\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j$, with
+$\sigma_1$ in the direction back toward the origin (equation~\ref{sig1}), and ($\sigma_2$) in the orthogonal direction (equation~\ref{sig2}). 
+%The mean is given by:
+%\begin{equation}
+%{\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j  \label{mean}
+%\end{equation}
+%and 
+We define the normalized mean vector as, ${\bf \nu} = \mu/||\mu|| $,
 and finally determine the anisotropic standard deviations of the projected distances to the mean, given by
 \begin{eqnarray}
 \sigma_1 =  \sqrt{\left(\sum_j w_j (({\bf v}_j-\mu)^{\bf T}\nu)^2\right) / \sum_j w_j} \label{sig1}\\
@@ -77,17 +76,18 @@ The system typically converges quickly (all of our experiments use a hard-coded 
 
 The vector field, $V$, defined above indicates a best guess of how any individual vertex, $p$, on a stroke polyline should move to match the consensus of all drawings.
 
-The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k))$, and directly move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost.  To move away from the naive approach, we hypothesize that the fat finger problem is likely to cause the input stroke to be off by a roughly constant displacement, while the original stroke shape is likely to represent the user's {\em intent}.
+The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k))$, and directly move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost.  We hypothesize that the fat finger problem is likely to cause the input stroke to be off by a roughly constant displacement, while the original stroke shape is likely to represent the user's {\em intent}.
 
 Our goal is thus to use the guidance of the vector field on where to move, but still maintain most of the shape of the original stroke.  We therefore create and solve an over-constrained linear system that represents both of those objectives.
 
 With $p_i$ representing input stroke sample locations for $i=1\ldots k$, $V_i$ a shorthand for $V(p_i)$ representing the correction vector field at $p_i$, and $p_i'$ representing the corrected samples, we construct a quadratic error function as:
 
 \begin{equation}
-E = \alpha \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \sum_{i=2}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
+E =  \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \alpha \sum_{i=2}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
 \end{equation}
 
-The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with a standard least squares solver on the $2k-1$ terms.
+The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with respect to p' using a standard least squares solver.
+
 
 \subsubsection{Setting $\alpha$ - Closely Spaced Consensus Strokes}
 
