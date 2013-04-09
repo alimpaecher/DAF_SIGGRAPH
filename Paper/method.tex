@@ -86,7 +86,8 @@ With $p_i$ representing input stroke sample locations for $i=1\ldots k$, $V_i$ a
 E =  \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \alpha \sum_{i=2}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
 \end{equation}
 
-The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with respect to p' using a standard least squares solver.
+The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. 
+$V$ maps the discretized vector field onto the points $p$ using bilinear interpolation. The error is minimized with respect to p' using a standard least squares solver.
 
 
 \subsubsection{Setting $\alpha$ - Closely Spaced Consensus Strokes}
