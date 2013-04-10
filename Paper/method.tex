@@ -74,7 +74,7 @@ The system typically converges quickly (all of our experiments use a hard-coded 
 \subsection{Real-time Stroke Correction}
 
 
-The vector field, $V$, defined above indicates a best guess of how any individual vertex, $p$, on a stroke polyline should move to match the consensus of all drawings.
+The vector field, $V$, defined above indicates a best guess of how any individual vertex, $p$, on a stroke polyline should move to match the consensus of all drawings. $V$ maps the discretized vector field onto the points $p$ using bilinear interpolation. The error is minimized with respect to p' using a standard least squares solver.
 
 The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k))$, and directly move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost.  We hypothesize that the fat finger problem is likely to cause the input stroke to be off by a roughly constant displacement, while the original stroke shape is likely to represent the user's {\em intent}.
 
@@ -86,8 +86,8 @@ With $p_i$ representing input stroke sample locations for $i=1\ldots k$, $V_i$ a
 E =  \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \alpha \sum_{i=2}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
 \end{equation}
 
-The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. 
-$V$ maps the discretized vector field onto the points $p$ using bilinear interpolation. The error is minimized with respect to p' using a standard least squares solver.
+The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with respect to p' using a standard least squares solver.
+
 
 
 \subsubsection{Setting $\alpha$ - Closely Spaced Consensus Strokes}

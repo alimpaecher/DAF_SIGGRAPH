@@ -1,10 +1,25 @@
 \section{Results}
-After smaller-scale trials, DrawAFriend was released publicly on January 8th, 2013. In 88 days there were 14,270 drawings. After the launch of DrawAFriend, our project proceeded in three phases. First we collected drawings for six celebrities to prime our initial correction vector field. Second we use the correction field to add an automatic stroke correction helper to the game. Lastly we crowd sourced the evaluation of our stroke corrector, by AB testing it within the game.
+\begin{figure}
+\centering
+\begin{tabular}{ccccc}
+\imgtbl{image_aj} & \imgtbl{avg_aj} & \imgtbl{dir_aj} & \imgtbl{mag_aj} & \imgtbl{edges_aj} \\
+\imgtbl{image_bp} & \imgtbl{avg_bp} & \imgtbl{dir_bp} & \imgtbl{mag_bp} & \imgtbl{edges_bp} \\
+\imgtbl{image_kk} & \imgtbl{avg_kk} & \imgtbl{dir_kk} & \imgtbl{mag_kk} & \imgtbl{edges_kk} \\
+\imgtbl{image_ks} & \imgtbl{avg_ks} & \imgtbl{dir_ks} & \imgtbl{mag_ks} & \imgtbl{edges_ks} \\
+\imgtbl{image_rd} & \imgtbl{avg_rd} & \imgtbl{dir_rd} & \imgtbl{mag_rd} & \imgtbl{edges_rd} \\
+\imgtbl{image_bo} & \imgtbl{avg_bo} & \imgtbl{dir_bo} & \imgtbl{mag_bo} & \imgtbl{edges_bo} \\
+(a) & (b) & (c) & (d) & (e)
+\end{tabular}
+\caption{DrawAFriend users draw one of six celebrities (a). We use our database of hundreds of drawings per subject -- shown averaged in (b) -- to precompute a \emph{correction vector field} (c) enabling real-time drawing assistance on the iPhone. The magnitude of our vector field (d) reveals a consensus of artistic renderings strikingly different than what we could compute with automated methods, such as a canny edge detector (e).}
+\label{fig:image-table}
+\end{figure}
+
+After smaller-scale trials, DrawAFriend was released publicly on January 8th, 2013. In 88 days there were 14,270 drawings. After the launch of DrawAFriend, our project proceeded in three phases. First we collected drawings for six celebrities to prime our initial correction vector field. Second we use the correction field to add an automatic stroke correction helper into the game. Lastly we crowd sourced the evaluation of our stroke corrector, by AB testing it within the game.
 
 \subsection{DrawAFriend Correction Vector Field}
-In order to integrate the correction vector field into the game, we needed to prime it with some initial drawings. In four days players had downloaded the game over 2000 times and created 6373 drawings. In total, players had already spent approximately 10 full 24 hour days drawing. We used these drawings to create the correction vector field.
+In order to integrate the correction vector field into the game, we needed to prime it with some initial drawings. In four days players had downloaded the game over 2000 times and created 6373 drawings. In that time, players had already spent approximately 10 full 24 hour days drawing. We used these drawings to create the correction vector field.
 
-Players were given the option of drawing Facebook friends or one of an initial set of six celebrities: Robert Downey Jr., Angelina Jolie, Kim Kardashian, Barack Obama, Brad Pitt, or Kristen Stewart. From the drawings generated in the first four days, we manually chose 611 celebrity drawings. For these drawings, players had made an attempt to somewhat accurately draw the eyes (the most intricate feature to draw). These 611 drawings were a little under 10\% of the dataset. The rest of the dataset mostly consisted of drawings that players had drawn quickly and often without zooming, and resembled a person like scribble. While the rest of the dataset could be used for analysis, we did not train our correction vector field on it.  See Figure \ref{fig:daf-stats}  for statistics references these 611 drawings.
+Players were given the option of drawing Facebook friends or one of an initial set of six celebrities: Robert Downey Jr., Angelina Jolie, Kim Kardashian, Barack Obama, Brad Pitt, or Kristen Stewart. From the drawings generated in the first four days, we manually chose 611 celebrity drawings. For these drawings, players had made an attempt to accurately draw the eyes (the most intricate feature to draw). These 611 drawings were a little under 10\% of the dataset. The rest of the dataset mostly consisted of drawings that players had drawn quickly, resembling a person like scribble. While the rest of the dataset could be used for analysis, we did not train our correction vector field on it.  See Figure \ref{fig:daf-stats}  for statistics references these 611 drawings.
 
 \begin{figure}[b]
   \centering%
@@ -13,7 +28,7 @@ Players were given the option of drawing Facebook friends or one of an initial s
   \label{fig:daf-stats}
 \end{figure}
 
-We ran our modified mean shift algorithm on this initial dataset to create the correction vector fields shown in Figure \ref{fig:image-table}. Our MATLAB implementation took under 5 minutes for each celebrity.  The great majority of the time was spent in un-optimized nearest neighbor search. The correction vector field had the dimensions of 460x320. In Figure \ref{fig:daf-convergence} we plot how our correction vector field converges for Barack Obama, by calculating the vector field for a subset of the drawings. There appears to be an inflection point around 25 drawing, at which point the correction vector field would probably work well. However every drawing still improves the correction field, implying that after 130 drawings the correction vector field has not completely converged. We can also use the correction vector field to filter our drawings. Drawings whose points were on average 10 pixels away from the consensus were never actually portraits (most often they were simply someone writing out the celebrities name). For the user study described below we used this filtering method to exclude non-portraits. 
+We ran our modified mean shift algorithm on this initial dataset to create the correction vector fields shown in Figure \ref{fig:image-table}. Our MATLAB implementation took under 5 minutes for each celebrity.  The great majority of the time was spent in un-optimized nearest neighbor search. The correction vector field had the dimensions of 460x320. In Figure \ref{fig:daf-convergence} we plot how our correction vector field converges for Brad Pitt, by calculating the vector field for a subset of the drawings. There appears to be an inflection point around 25 drawing, at which point the correction vector field would probably work well. However every drawing still improves the correction field, implying that after 130 drawings the correction vector field has not completely converged. We can also use the correction vector field to filter our drawings. Drawings whose points were on average 10 pixels away from the consensus were never actually portraits (most often they were simply someone writing out the celebrity's name). For the user study described below we used this filtering method to exclude non-portraits. 
 
 \begin{figure}
   \centering%
@@ -25,7 +40,7 @@ We ran our modified mean shift algorithm on this initial dataset to create the c
 
 \subsection {Drawing Enhancements}
 
-We applied the correction vector field to interactively modify strokes during the drawing process. For every new stroke point added a background thread is spun off to correct the new stroke. Once the thread completes if new points have accumulated another thread is immediately spun off. With no additional user interface elements to the existing DrawAFriend UI, we seamlessly add stroke auto-correction. As the user draws, strokes are subtly corrected at interactive rates on an iPhone 4. In general, the fact that corrections are being applied is almost invisible to the user. Instead, strokes appear where the user {\em intended} to draw.
+We apply the correction vector field to interactively modify strokes during the drawing process. For every new stroke point added, a background thread is spun off to correct the new stroke. Once the thread completes if new points have accumulated another thread is immediately spun off. With no additional user interface elements to the existing DrawAFriend UI, we seamlessly add stroke auto-correction. As the user draws, strokes are subtly corrected at interactive rates on an iPhone 4. In general, the fact that corrections are being applied is almost invisible to the user. Instead, strokes appear where the user {\em intended} to draw.
 
 %????Please see the \alex{Not sure how to reference the teaser on top} and the video for interactive examples.
 
@@ -41,12 +56,12 @@ Users drew one of the six celebrities (Robert Downey Jr., Angelina Jolie, Kim Ka
 
 After approximately one week, 500 players had "contributed" to the study to test the effect of the auto-correction on over 1300 drawings. Using this data we assess recognition rates (measuring how good drawings are from the perspective of others). We also analyze undo rates (providing an insight into how artists like their own drawings). Finally we measure average "distance" from the artistic consensus (measuring how carefully artists are drawing).
 
-Our results show that autocorrect reduced undo rates (the ratio of undos to all other strokes). This effect is magnified for careful drawers (who undid 30\% or more strokes). Their undo rates decreased by a significant 5\% (Wilcoxian p-value = .045).  Before we analyzed the undo rates we removed all drawings that had 0 undos (assuming most of these players did not know undo existed) and all drawings with less than 10 undone strokes (assuming these drawings were not actual attempts to draw the celebrity).  We view the drop in undo rates as an improvement in how players view their own drawings.
+Our results show that autocorrect reduced undo rates (the ratio of undos to all other strokes). This effect is magnified for careful drawers (who undid 30\% or more strokes). Their undo rates decreased by a significant 5\% (Wilcoxian p-value = .045).  Before we analyzed the undo rates we removed all drawings that had 0 undos (assuming most of these players did not know undo existed) and all drawings with less than 10 undone strokes (assuming these drawings were not actual attempts to draw the celebrity).  Figure \ref{fig:daf-undo} shows the effect that auto correction has on decorating undo rates, particularly for more careful drawers. We view the drop in undo rates as an improvement in how players view their own drawings.
 
 \begin{figure}
   \centering%
 \includegraphics[width=3.5in]{./figures/userstudy/undoRates_chart.png}
-  \caption{Percent of strokes that are ``undone'' with auto-correction on and off, on drawings ordered by the amount of undone strokes. Note that fewer strokes are undone with auto-correction on particularly for drawings in which 30-50\% of strokes are undone.}
+  \caption{Percentile undo rates for the auto corrected and not auto corrected drawings, sorted in ascending order. Note how the auto correction results in the decrease of undo rates, particularly for more careful drawers.}
   \label{fig:daf-undo}
 \end{figure}
 
@@ -61,20 +76,7 @@ Likewise, with auto-correct on,  we observe a significant increase in the averag
 
 Interestingly, statistical analysis reveals that the auto-corrector does not significantly alter recognizability. We believe that our auto-corrector does not change players drawing quality. Rather it makes reaching this level of quality easier by requiring less undos and less accuracy.
 
-\begin{figure}
-\centering
-\begin{tabular}{ccccc}
-\imgtbl{image_aj} & \imgtbl{avg_aj} & \imgtbl{dir_aj} & \imgtbl{mag_aj} & \imgtbl{edges_aj} \\
-\imgtbl{image_bp} & \imgtbl{avg_bp} & \imgtbl{dir_bp} & \imgtbl{mag_bp} & \imgtbl{edges_bp} \\
-\imgtbl{image_kk} & \imgtbl{avg_kk} & \imgtbl{dir_kk} & \imgtbl{mag_kk} & \imgtbl{edges_kk} \\
-\imgtbl{image_ks} & \imgtbl{avg_ks} & \imgtbl{dir_ks} & \imgtbl{mag_ks} & \imgtbl{edges_ks} \\
-\imgtbl{image_rd} & \imgtbl{avg_rd} & \imgtbl{dir_rd} & \imgtbl{mag_rd} & \imgtbl{edges_rd} \\
-\imgtbl{image_bo} & \imgtbl{avg_bo} & \imgtbl{dir_bo} & \imgtbl{mag_bo} & \imgtbl{edges_bo} \\
-(a) & (b) & (c) & (d) & (e)
-\end{tabular}
-\caption{DrawAFriend users draw one of six celebrities (a). We use our database of hundreds of drawings per subject -- shown averaged in (b) -- to precompute a \emph{correction vector field} (c) enabling real-time drawing assistance on the iPhone. The magnitude of our vector field (d) reveals a consensus of artistic renderings strikingly different than what we could compute with automated methods, such as a canny edge detector (e).}
-\label{fig:image-table}
-\end{figure}
+
 
 \begin{figure*}[!t]
   \centering%
