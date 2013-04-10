@@ -1,5 +1,7 @@
 \section{Data Driven Drawing}
 
+\subsection{Real-time Stroke Correction}
+
 Our goal is to provide a drawing interface on mobile devices that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system through the use of a tracing paradigm. The simplest idea would be to attract drawn strokes to edges found in the image being traced. Unfortunately, this idea fails in two respects. First edge detectors such as Canny methods (see Figure~\ref{fig:edges}, left) have no notion of semantics and thus appear noisy and inconsistent. Second, unlike automated edge detectors, humans tend to select only the most meaningful edges to draw.
 
 \begin{figure}
@@ -71,7 +73,15 @@ We add a simple regularization $w_i \leftarrow w_i/ (w_i+0.05)$ to the weights. 
 
 The system typically converges quickly (all of our experiments use a hard-coded 10 iterations), and $V(p)$ is set to $\mu$.  Examples of nearest neighbor sets and their resulting consensus strokes are shown in Figure \ref{fig:neighbors}.
 
-\subsection{Real-time Stroke Correction}
+
+
+\begin{figure}
+  \centering%
+\includegraphics[height=3.25in]{./imagetable/dir_bp.pdf}
+  \caption{The correction vector field for Brad Pitt.}
+  \label{fig:daf-zoom-flow}
+\end{figure}
+
 
 
 The vector field, $V$, defined above indicates a best guess of how any individual vertex, $p$, on a stroke polyline should move to match the consensus of all drawings. $V$ maps the discretized vector field onto the points $p$ using bilinear interpolation. The error is minimized with respect to p' using a standard least squares solver.
@@ -101,6 +111,21 @@ To achieve the dual goals of avoiding the two nearby stroke problem while balanc
 We also found that some strokes are purely stylistic in nature. For example, someone writes ``Obama'' above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $\max_i||V_i)||$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direction is mostly orthogonal to the vector field. The latter term is measured with the average of absolute cosines $\frac{1}{N}\sum_i||N(p_i - p_{i-1}) \cdot N(V(p_i))||\textrm{,}$ where $N(\cdot)$ normalizes vectors. If the average falls below 0.5, the stroke is considered purely stylistic. Examples of purely stylistic strokes can be seen in our video.
 
 
+
+\begin{figure}
+\centering
+\begin{tabular}{ccccc}
+\imgtbl{image_aj} & \imgtbl{avg_aj} & \imgtbl{dir_aj} & \imgtbl{mag_aj} & \imgtbl{edges_aj} \\
+\imgtbl{image_bp} & \imgtbl{avg_bp} & \imgtbl{dir_bp} & \imgtbl{mag_bp} & \imgtbl{edges_bp} \\
+\imgtbl{image_kk} & \imgtbl{avg_kk} & \imgtbl{dir_kk} & \imgtbl{mag_kk} & \imgtbl{edges_kk} \\
+\imgtbl{image_ks} & \imgtbl{avg_ks} & \imgtbl{dir_ks} & \imgtbl{mag_ks} & \imgtbl{edges_ks} \\
+\imgtbl{image_rd} & \imgtbl{avg_rd} & \imgtbl{dir_rd} & \imgtbl{mag_rd} & \imgtbl{edges_rd} \\
+\imgtbl{image_bo} & \imgtbl{avg_bo} & \imgtbl{dir_bo} & \imgtbl{mag_bo} & \imgtbl{edges_bo} \\
+(a) & (b) & (c) & (d) & (e)
+\end{tabular}
+\caption{DrawAFriend users draw one of six celebrities (a). We use our database of hundreds of drawings per subject -- shown averaged in (b) -- to precompute a \emph{correction vector field} (c) enabling real-time drawing assistance on the iPhone. The magnitude of our vector field (d) reveals a consensus of artistic renderings strikingly different than what we could compute with automated methods, such as a canny edge detector (e).}
+\label{fig:image-table}
+\end{figure}
 
 
 
