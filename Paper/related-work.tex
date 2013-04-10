@@ -7,6 +7,8 @@ There has also been considerable work in the Human Computer Interaction communit
 There has been little work in helping users draw. One system, \emph{iCanDraw} \cite{Dixon:2010:IUS} helps users draw faces with a tutorial approach. A sketching beautification system~\cite{Orbay2011} takes many sketchy short overlapping strokes and infers smooth lines. \emph{Elasticurves} \cite{Thiel:2011} neatened sketches by smoothing strokes dynamically based on stroke speed.  \emph{ShadowDraw} \cite{Lee:2011}, like our system, uses collected images to aid users in drawing by providing {\em shadows} of similar drawings.  In contrast to these methods and to the \emph{fat finger problem} corrections, we add no additional hardware, visual cues or interaction paradigms. The user thinks they are simply drawing with no help. We use data from a corpus of previous drawings of the same image to seamlessly correct user strokes as they draw. Gingold's work\shortcite{Gingold:2012} used image averaging to beautify images. However their method, which involved averaging euclidean points, was only used to improve simple drawings such as smiley faces. Our stroke correction method was inspired by the finding of Cole \etal \shortcite{Cole:2008:WDP} that artists frequently draw similar lines. Our results confirm Cole's finding, and further develop this idea with our hypothesis that the consensus of these strokes represents the fundamental user ``intent.'' Our method detects and leverages this artistic consensus in order to
 interactively adjust strokes.
 
+The concurrent work of \cite{Zitnick:2013} improves handwriting and simple drawing primitives by moving strokes towards an average of similar strokes. The high level notion of leveraging the consensus is similar to our work, however they use a very different definition of a stroke to enable fast matching since they do not have the luxury of having all strokes being aligned a priori.
+
 Our stroke-correction technique minimizes an energy function similar
 in spirit to the intelligent scissors
 method \cite{Mortensen:1995:ISF}. However, rather than snap to image
@@ -14,3 +16,4 @@ contours, our energy function is based on a consensus of strokes from many
 registered drawings. We further preserve the {\em style} of the
 users' stroke geometry using a Gradient method which is often used
 in geometry processing \cite{Botsch:2008:LVS}. 
+
