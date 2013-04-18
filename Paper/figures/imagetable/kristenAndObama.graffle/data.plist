@@ -600,7 +600,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{100, 148.82632446289062}, {100.75, 151.125}}</string>
+			<string>{{100, 142.82632446289062}, {100.75, 151.125}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -702,7 +702,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2013-04-18 15:43:31 +0000</string>
+	<string>2013-04-18 15:54:31 +0000</string>
 	<key>Modifier</key>
 	<string>Alex Limpaecher</string>
 	<key>NotesVisible</key>
