@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>intro.tex</string>
+	<string>results.tex</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,88 +21,59 @@
 	<integer>201</integer>
 	<key>metaData</key>
 	<dict>
-		<key>abstract.tex</key>
+		<key>results-alex.tex</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>34</integer>
+				<integer>296</integer>
 				<key>line</key>
-				<integer>6</integer>
+				<integer>43</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
-			<integer>0</integer>
+			<integer>211</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>37</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>13</integer>
+				<integer>286</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>43</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>34</integer>
+				<integer>296</integer>
 				<key>line</key>
-				<integer>6</integer>
+				<integer>43</integer>
 			</dict>
 		</dict>
-		<key>conclusion.tex</key>
+		<key>results.tex</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>207</integer>
 				<key>line</key>
-				<integer>9</integer>
+				<integer>42</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
-			<integer>0</integer>
+			<integer>441</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>intro.tex</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>208</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>180</integer>
-		</dict>
-		<key>related-work.tex</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>11</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>299</integer>
-			<key>firstVisibleLine</key>
-			<integer>4</integer>
+			<integer>40</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>intro.tex</string>
-		<string>abstract.tex</string>
-		<string>conclusion.tex</string>
+		<string>results-alex.tex</string>
+		<string>results.tex</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{89, 26}, {1066, 707}}</string>
+	<string>{{369, 4}, {1066, 874}}</string>
 </dict>
 </plist>
