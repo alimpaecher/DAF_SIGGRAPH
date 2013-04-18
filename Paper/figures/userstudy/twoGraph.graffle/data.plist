@@ -14,7 +14,7 @@
 	<key>BackgroundGraphic</key>
 	<dict>
 		<key>Bounds</key>
-		<string>{{0, 0}, {234, 482}}</string>
+		<string>{{0, 0}, {234, 270}}</string>
 		<key>Class</key>
 		<string>SolidGraphic</string>
 		<key>ID</key>
@@ -38,7 +38,7 @@
 	<key>CanvasOrigin</key>
 	<string>{0, 0}</string>
 	<key>CanvasSize</key>
-	<string>{234, 482}</string>
+	<string>{234, 270}</string>
 	<key>ColumnAlign</key>
 	<integer>1</integer>
 	<key>ColumnSpacing</key>
@@ -171,7 +171,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2013-04-18 19:35:25 +0000</string>
+	<string>2013-04-18 19:35:48 +0000</string>
 	<key>Modifier</key>
 	<string>Alex Limpaecher</string>
 	<key>NotesVisible</key>
@@ -247,7 +247,7 @@
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{449, 132}, {710, 746}}</string>
+		<string>{{166, 126}, {710, 746}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -261,7 +261,7 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-171, -83}, {575, 607}}</string>
+		<string>{{-171, -189}, {575, 607}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>

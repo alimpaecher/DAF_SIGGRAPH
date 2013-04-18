@@ -14,7 +14,7 @@
 	<key>BackgroundGraphic</key>
 	<dict>
 		<key>Bounds</key>
-		<string>{{0, 0}, {234, 482}}</string>
+		<string>{{0, 0}, {234, 122}}</string>
 		<key>Class</key>
 		<string>SolidGraphic</string>
 		<key>ID</key>
@@ -38,60 +38,30 @@
 	<key>CanvasOrigin</key>
 	<string>{0, 0}</string>
 	<key>CanvasSize</key>
-	<string>{234, 482}</string>
+	<string>{234, 122}</string>
 	<key>ColumnAlign</key>
 	<integer>1</integer>
 	<key>ColumnSpacing</key>
 	<real>36</real>
 	<key>CreationDate</key>
-	<string>2013-04-10 18:47:34 +0000</string>
+	<string>2013-04-18 19:52:50 +0000</string>
 	<key>Creator</key>
 	<string>Alex Limpaecher</string>
 	<key>DisplayScale</key>
-	<string>1 0/72 in = 1.0000 in</string>
+	<string>1 0/72 in = 1 0/72 in</string>
 	<key>GraphDocumentVersion</key>
 	<integer>8</integer>
 	<key>GraphicsList</key>
 	<array>
 		<dict>
 			<key>Bounds</key>
-			<string>{{0, -42}, {234, 180.81818181818184}}</string>
+			<string>{{0, -50}, {234, 180.81818181818184}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>14</integer>
+			<integer>3</integer>
 			<key>ImageID</key>
-			<integer>11</integer>
-			<key>Shape</key>
-			<string>Rectangle</string>
-			<key>Style</key>
-			<dict>
-				<key>fill</key>
-				<dict>
-					<key>Draws</key>
-					<string>NO</string>
-				</dict>
-				<key>shadow</key>
-				<dict>
-					<key>Draws</key>
-					<string>NO</string>
-				</dict>
-				<key>stroke</key>
-				<dict>
-					<key>Draws</key>
-					<string>NO</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Bounds</key>
-			<string>{{0, 87}, {234, 180.81818181818184}}</string>
-			<key>Class</key>
-			<string>ShapedGraphic</string>
-			<key>ID</key>
-			<integer>15</integer>
-			<key>ImageID</key>
-			<integer>12</integer>
+			<integer>1</integer>
 			<key>Shape</key>
 			<string>Rectangle</string>
 			<key>Style</key>
@@ -123,16 +93,14 @@
 	<key>HPages</key>
 	<integer>1</integer>
 	<key>ImageCounter</key>
-	<integer>13</integer>
+	<integer>2</integer>
 	<key>ImageLinkBack</key>
 	<array>
-		<dict/>
 		<dict/>
 	</array>
 	<key>ImageList</key>
 	<array>
-		<string>image12.pdf</string>
-		<string>image11.pdf</string>
+		<string>image1.pdf</string>
 	</array>
 	<key>KeepToScale</key>
 	<false/>
@@ -171,7 +139,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2013-04-18 19:35:25 +0000</string>
+	<string>2013-04-18 19:53:44 +0000</string>
 	<key>Modifier</key>
 	<string>Alex Limpaecher</string>
 	<key>NotesVisible</key>
@@ -245,9 +213,14 @@
 		<key>CurrentSheet</key>
 		<integer>0</integer>
 		<key>ExpandedCanvases</key>
-		<array/>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>Canvas 1</string>
+			</dict>
+		</array>
 		<key>Frame</key>
-		<string>{{449, 132}, {710, 746}}</string>
+		<string>{{365, 86}, {710, 792}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -261,15 +234,15 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-171, -83}, {575, 607}}</string>
+		<string>{{-75, -177}, {383.33333333333331, 435.33333333333331}}</string>
 		<key>Zoom</key>
-		<real>1</real>
+		<real>1.5</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
 				<string>Canvas 1</string>
-				<real>1</real>
-				<real>0.5</real>
+				<real>1.5</real>
+				<real>8</real>
 			</array>
 		</array>
 	</dict>
