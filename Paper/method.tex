@@ -1,7 +1,5 @@
 \section{Data Driven Drawing}
 
-\subsection{Real-time Stroke Correction}
-
 Our goal is to provide a drawing interface on mobile devices that provides the feeling that the user is in full control, while simultaneously providing assistance, in particular, to overcome the inherent fat finger problem. As described earlier, the problem is more constrained than a general drawing system through the use of a tracing paradigm. The simplest idea would be to attract drawn strokes to edges found in the image being traced. Unfortunately, this idea fails in two respects. First edge detectors such as Canny methods (see Figure~\ref{fig:edges}, left) have no notion of semantics and thus appear noisy and inconsistent. Second, unlike automated edge detectors, humans tend to select only the most meaningful edges to draw.
 
 \begin{figure}
@@ -57,7 +55,7 @@ Our goal is find a consensus of nearby strokes that avoids undue influence from 
 Our algorithm works by iteratively updating a vector of weights, {\bf w}, which represent the belief that a particular nearest point, $v_i$, is a member of the consensus stroke. The final correction vector, $V(p)$, is determined by the weighted mean of the points, $v$. We initialize all weights using a symmetric Gaussian centered at the origin, with $\sigma$ equal to the mean distance to all nearest points, $v$.
 
 The iterations proceed by determining an anisotropic Gaussian with weighted mean, ${\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j$, with
-$\sigma_1$ in the direction back toward the origin (equation~\ref{sig1}), and ($\sigma_2$) in the orthogonal direction (equation~\ref{sig2}). 
+$\sigma_1$ in the direction back toward the origin (Eq. ~\ref{sig1}), and ($\sigma_2$) in the orthogonal direction (Eq. ~\ref{sig2}). 
 %The mean is given by:
 %\begin{equation}
 %{\bf \mu} = \left(\sum_j w_j {\bf v}_j\right) / \sum_j w_j  \label{mean}
@@ -108,7 +106,7 @@ To achieve the dual goals of avoiding the two nearby stroke problem while balanc
 
 \subsubsection{Purely Stylistic Strokes}
 
-We also found that some strokes are purely stylistic in nature. For example, someone writes ``Obama'' above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $\max_i||V_i)||$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direction is mostly orthogonal to the vector field. The latter term is measured with the average of absolute cosines $\frac{1}{N}\sum_i||N(p_i - p_{i-1}) \cdot N(V(p_i))||\textrm{,}$ where $N(\cdot)$ normalizes vectors. If the average falls below 0.5, the stroke is considered purely stylistic. Examples of purely stylistic strokes can be seen in our video.
+We also found that some strokes are purely stylistic in nature. For example, someone writes ``Obama'' above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $\max_i||V_i||$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direction is mostly orthogonal to the vector field. The latter term is measured with the average of absolute cosines $\frac{1}{N}\sum_i||N(p_i - p_{i-1}) \cdot N(V(p_i))||\textrm{,}$ where $N(\cdot)$ normalizes vectors. If the average falls below 1/2, the stroke is considered purely stylistic. Examples of purely stylistic strokes can be seen in our video.
 
 
 
