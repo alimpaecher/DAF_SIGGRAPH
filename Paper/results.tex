@@ -10,7 +10,11 @@
 \begin{figure}
   \centering%
 \includegraphics[width=3.5in]{./figures/userstudy/undoRates_chart_cropped.pdf}
-  \caption{This chart plots the undo rates (ratio of undos over all strokes). We then order the drawings by undo rates, and plot them with the X axis indicating the percentile undo rate. As can be seen the two sets behave similarly for lower percentiles. However for higher percentiles the two sets diverge, with the auto-corrected drawings showing lower undo rates.}
+  \caption{This chart plots the undo rates (percentage of all strokes that are undone, i.e., undos / undos+not-undos) for
+each drawing sorted by undo rates. The X axis indicates the percentile undo rate, for example at the 50\% mark half of the
+drawings had less undos and half more. As can be seen the two sets behave similarly for the first half in which the undo
+rate is below about 15\%. However for higher percentiles the two sets diverge, with the auto-corrected drawings generally
+showing lower undo rates.}
   \label{fig:daf-undos}
 \end{figure}
 
@@ -27,7 +31,12 @@ Players were given the option of drawing Facebook friends or one of an initial s
 \begin{figure}[!t]
   \centering%
 \includegraphics[width=3.5in]{./figures/userstudy/twoGraph.pdf}
-  \caption{(top) Convergence of the correction vector field as more images are added. Relative error is measured between the correction vector field built using X drawings and the correction vector field using all 124 drawings. (bottom)The median distance to the consensus for each celebrity with and without auto-correction. The error bars mark the 60th and 40th percentile for each celebrity. Auto-correction universally leads to a greater distance, implying that users can be sloppier when auto-correction is activated.}
+  \caption{(top) Convergence of the correction vector field as more images are added. Relative error is measured between
+the correction vector field built using X drawings and the correction vector field using all 124 drawings. (bottom)The
+median across drawings of the mean distance of stroke points to the consensus for each celebrity with and without auto-
+correction. Distance is measured by the value of the correction vector field under the strokes. The error bars mark the
+60th and 40th percentile for each celebrity. Auto-correction universally leads to a greater distance, implying that users
+can be sloppier when auto-correction is activated.}
   \label{fig:daf-two}
 \end{figure}
 
@@ -58,11 +67,31 @@ After approximately one week, 500 players had "contributed" to the study to test
 
 %[Someone Please Review this Paragraph]
 
-First we investigate undos, which is an indication of how artists like their own image. Some care must be taken with undos, because players use different number of strokes. Thus we focused on undo rates, which is the number of strokes undone over the total number of strokes. For example if a user drew 100 strokes and pressed undo for 40 of them, this would have an undo rate of 40\%. For our analysis we removed all drawings that had 0 undos (assuming this implied players did not know undo existed). This left 327 drawings auto-corrected and 295 that were not.  As can be seen in Figure \ref{fig:daf-undos}, the distributions of undo rates for the lower percentiles are equivalent. However the undo rates diverge in the higher percentiles. This seems to imply that our auto-corrector lowers the undo rate for more careful drawers (players that undo a larger percent of their drawing). 
+First we investigate {\em undos} as an indication of how artists like their own image. Since players use different number
+of strokes, we focus on undo rates, which is the number of strokes undone over the total number of strokes. For example if
+a user drew 100 strokes and pressed undo for 40 of them, this would have an undo rate of 40\%. For our analysis we removed
+all drawings that had 0 undos (assuming this implied players did not know undo existed). This left 327 drawings auto-
+corrected and 295 that were not. We sorted each set of drawings by the undo rates from lowest to highest, and in Figure
+\ref{fig:daf-undos}, plotted the undo rate for each percentile of sorted drawings (this normalizes for the different
+number of drawings in each set). The distribution of undo rates for the drawings with fewer undos track together for both
+sets with and without autocorrection. However the undo rates diverge further along the sorted lists. This seems to imply
+that our auto-corrector lowers the undo rate for more careful drawers (players that undo a larger percent of their
+strokes).
 
-With auto-correct on,  we observe a significant increase in the average distance between the actual uncorrected strokes and the consensus drawings (as measured by the \emph{correction vector field}). With a two-sample Wilcoxon test of whether or not the mean of the average flow increases with auto correct on, we get a p-value of $1.653*10^{-6}$.  This suggests that artists do not need to draw as precisely. Figure \ref{fig:daf-two} (bottom) shows the median distance to the consensus for each celebrity with a sample size of 570 auto-corrected and 533 not auto-corrected.
+ 
+With auto-correct on,  we observe a significant increase in the average distance between the actual uncorrected strokes
+and the consensus drawings (as measured by the \emph{correction vector field}). We perform a two-sample Wilcoxon test of
+whether or not there is a difference in the mean of the correction vector field under the stroke points with auto correct
+on versus off. This shows a significant difference in the means, with a p-value of $1.653*10^{-6}$.  This suggests that
+artists do not need to draw as precisely. Figure \ref{fig:daf-two} (bottom) shows the median distance to the consensus for
+each celebrity with a sample size of 570 auto-corrected and 533 not auto-corrected.
+ 
 
-Interestingly, statistical analysis reveals that the auto-corrector does not significantly alter recognizability. Corrected drawings had a recognition rate of $37.5\% \pm 2.02\%$ while uncorrected drawings had an average recognition rate of $38.6\% \pm 2.11\%$ (again 570 and 533 respectively). We believe that our auto-corrector does not change players drawing quality. Rather it makes reaching this level of quality easier by requiring less undos and less accuracy.
+Interestingly, statistical analysis reveals that the auto-corrector does not significantly alter recognizability.
+Corrected drawings had a recognition rate of $37.5\% \pm 2.02\%$ while uncorrected drawings had an average recognition
+rate of $38.6\% \pm 2.11\%$ (again 570 and 533 drawings respectively). We believe that our auto-corrector does not change
+players final drawing quality. Rather it makes reaching this level of quality easier by requiring less undos and less
+accuracy.
 
 \begin{figure*}[!t]
   \centering%
