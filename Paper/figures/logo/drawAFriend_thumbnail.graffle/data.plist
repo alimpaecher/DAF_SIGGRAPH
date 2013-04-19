@@ -48,44 +48,14 @@
 	<key>Creator</key>
 	<string>Alex Limpaecher</string>
 	<key>DisplayScale</key>
-	<string>1 0/72 in = 1 0/72 in</string>
+	<string>1 0/72 in = 1.0000 in</string>
 	<key>GraphDocumentVersion</key>
 	<integer>8</integer>
 	<key>GraphicsList</key>
 	<array>
 		<dict>
 			<key>Bounds</key>
-			<string>{{0, 176}, {400, 119.92914083259521}}</string>
-			<key>Class</key>
-			<string>ShapedGraphic</string>
-			<key>ID</key>
-			<integer>4</integer>
-			<key>ImageID</key>
-			<integer>2</integer>
-			<key>Shape</key>
-			<string>Rectangle</string>
-			<key>Style</key>
-			<dict>
-				<key>fill</key>
-				<dict>
-					<key>Draws</key>
-					<string>NO</string>
-				</dict>
-				<key>shadow</key>
-				<dict>
-					<key>Draws</key>
-					<string>NO</string>
-				</dict>
-				<key>stroke</key>
-				<dict>
-					<key>Draws</key>
-					<string>NO</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Bounds</key>
-			<string>{{261, 5.5882568359375}, {150, 243.52941176470583}}</string>
+			<string>{{242, 0}, {216, 350.68235294117636}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -115,7 +85,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{-29, 0}, {200, 219.16167664670658}}</string>
+			<string>{{-28, 5.5882568359375}, {216, 236.69461077844312}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -145,7 +115,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{111, 7}, {166.625, 222.85448916408669}}</string>
+			<string>{{76, 30.2119140625}, {216, 288.89164086687305}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -189,14 +159,12 @@
 		<dict/>
 		<dict/>
 		<dict/>
-		<dict/>
 	</array>
 	<key>ImageList</key>
 	<array>
 		<string>image9.png</string>
 		<string>image7.png</string>
 		<string>image5.png</string>
-		<string>image2.png</string>
 	</array>
 	<key>KeepToScale</key>
 	<false/>
@@ -235,7 +203,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2013-04-18 18:54:55 +0000</string>
+	<string>2013-04-19 03:44:14 +0000</string>
 	<key>Modifier</key>
 	<string>Alex Limpaecher</string>
 	<key>NotesVisible</key>
@@ -330,7 +298,7 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-97, -175}, {575, 651}}</string>
+		<string>{{-73, -150}, {575, 651}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>
