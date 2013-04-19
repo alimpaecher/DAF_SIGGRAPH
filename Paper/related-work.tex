@@ -10,10 +10,11 @@ interactively adjust strokes.
 The concurrent work of \cite{Zitnick:2013} improves handwriting and simple drawing primitives by moving strokes towards an average of similar strokes. The high level notion of leveraging the consensus is similar to our work, however they use a very different definition of a stroke to enable fast matching since they do not have the luxury of having all strokes being aligned a priori.
 
 Our stroke-correction technique minimizes an energy function similar
-in spirit to the intelligent scissors
-method \cite{Mortensen:1995:ISF}. However, rather than snap to image
-contours, our energy function is based on a consensus of strokes from many
-registered drawings. We further preserve the {\em style} of the
-users' stroke geometry using a Gradient method which is often used
-in geometry processing \cite{Botsch:2008:LVS}. 
+in spirit to the intelligent scissors method
+\cite{Mortensen:1995:ISF}. However, rather than snap to image
+contours, our energy function is based on a consensus of strokes
+from many registered drawings. We further preserve the {\em style}
+of the users' stroke geometry using an approximately
+gradient-preserving deformation method often used in geometry
+processing \cite{Botsch:2008:LVS}.
 
