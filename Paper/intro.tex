@@ -24,21 +24,22 @@ To aid users and to collect multiple drawings of the same subject,
 we allow players to trace over existing photographs. In its first
 week of release \daf generated over 1,500 images per day.
 
-We believe this large and growing drawing database will enable a rich stream of future research in graphics. As a first application, we demonstrate how the \daf corpus can be
-mined to provide a self-correcting touch-based drawing interface on
-mobile devices. We observe that drawing with a touch device often
-suffers from the ``fat finger'' problem. We conceptually factor this
-issue into two elements: (1) the ``intent'' of the artist in drawing
-a stroke, and (2) an additional random noise component caused by
+We believe that this large and continuously growing drawing database
+will enable a rich stream of future research in graphics. As a first
+application, we demonstrate how the \daf corpus can be mined to
+provide a self-correcting touch-based drawing interface on mobile
+devices. We observe that drawing with a touch device often suffers
+from the ``fat finger'' problem. We conceptually factor this issue
+into two elements: (1) the ``intent'' of the artist in drawing a
+stroke, and (2) an additional random noise component caused by
 inaccuracy in the touch interface. We therefore hypothesize that if
 we can determine a consensus of strokes (in an appropriate sense)
 over a sufficiently large database of drawings, then we can cancel
-out the noise and recover the artist's original intent. This allows
-us to develop a real-time {\em self-correcting} touch interface: in
-essence, we clean up the artists drawing as they draw by using data
-from hundreds of previous drawings of the same subject. We analyze
-these images to compute a \emph{correction vector field} that for
-any location, points towards a nearby consensus of strokes. We
+out the noise and recover the artist's original intent. We analyze
+the drawing corpus to compute a \emph{correction vector field} that
+for any location, points towards a nearby consensus of strokes. This
+allows us to develop a real-time {\em self-correcting} touch
+interface: as artists draw, we essentially clean up their drawings by using data from previous drawings of the same subject. We
 further introduce a surprisingly simple method to correct strokes
 based on this consensus while maintaining the {\em stylistic}
 choices of the artist. The interface requires no new user
@@ -48,7 +49,7 @@ user than the raw original strokes.
 
 To validate the the effectiveness of our auto-correction algorithm,
 we ran a large-scale user study within the game. Each time a
-user draws a celebrity, we randomly turn the auto stroke correction
+user draws a celebrity, we randomly turn the stroke correction
 on or off. Our results validate the effectiveness of our stroke
 correction algorithm: with autocorrect on, artists do not need to
 draw as accurately, and they undo their strokes less. The ability of
