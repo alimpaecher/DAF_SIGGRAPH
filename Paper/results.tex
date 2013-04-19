@@ -32,7 +32,7 @@ Players were given the option of drawing Facebook friends or one of an initial s
   \centering%
 \includegraphics[width=3.5in]{./figures/userstudy/twoGraph.pdf}
   \caption{(top) Convergence of the correction vector field as more images are added. Relative error is measured between
-the correction vector field built using X drawings and the correction vector field using all 124 drawings. (bottom)The
+the correction vector field built using X drawings and the correction vector field using all 124 drawings. (We cannot explain the final drop-off at the end of the convergence. Our guess is that it is related to floating point roundoff or discretization error as the majority of vectors in the correction field have zero difference.) (bottom)The
 median across drawings of the mean distance of stroke points to the consensus for each celebrity with and without auto-
 correction. Distance is measured by the value of the correction vector field under the strokes. The error bars mark the
 60th and 40th percentile for each celebrity. Auto-correction universally leads to a greater distance, implying that users
@@ -90,7 +90,7 @@ each celebrity with a sample size of 570 auto-corrected and 533 not auto-correct
 
 Interestingly, statistical analysis reveals that the auto-corrector does not significantly alter recognizability.
 Corrected drawings had a recognition rate of $37.5\% \pm 2.02\%$ while uncorrected drawings had an average recognition
-rate of $38.6\% \pm 2.11\%$ (again 570 and 533 drawings respectively). We believe that our auto-corrector does not change
+rate of $38.6\% \pm 2.11\%$ (again 570 and 533 drawings respectively). Running a permutation we get a p-value = .87, which implies that the two populations are uncharacteristically similar. We believe that our auto-corrector does not change
 players final drawing quality. Rather it makes reaching this level of quality easier by requiring less undos and less
 accuracy.
 
