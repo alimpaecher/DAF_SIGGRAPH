@@ -15,9 +15,10 @@ Our goal is to provide a drawing interface on mobile devices that provides the f
 
 To provide assistance, we take advantage of previous drawings of the same face and then pull the users strokes towards a {\em consensus} of strokes from previous drawings. The simplest idea for forming a consensus would be to use an {\em average} drawing (see Figure~\ref{fig:image-table},b). This idea is also very problematic as the averages tend to create very fat lines of varying darkness, as well as broad regions such as in the hair. Although some kind of {\em skeletonization} may aid the first problem, it would fail on the second.
 
+\vspace{+0.45in}
 Instead, we develop a stroke correction strategy with two phases.
 
-\textbf{(i) Consensus Finding:} Using the training drawings available for an image, we create a correction vector field, which indicates for each pixel on the image, the delta toward the nearest {\em consensus stroke}.  This phase is run off-line.
+\textbf{(i) Consensus Finding:} Using the training drawings available for an image, we create a correction vector field which indicates, for each pixel on the image, the delta toward the nearest {\em consensus stroke}.  This phase is run off-line.
 
 \textbf{(ii) Interactive Correction:} The correction vector field is transmitted to the mobile device along with the image to be traced.  When a user draws a stroke, the field is sampled, and the stroke is moved in real-time in a way that maintains the original style.
 
@@ -85,7 +86,7 @@ The system typically converges quickly (all of our experiments use a hard-coded 
 
 
 
-The vector field, $V$, defined above indicates a best guess of how any individual vertex, $p$, on a stroke polyline should move to match the consensus of all drawings. $V$ maps the discretized vector field onto the points $p$ using bilinear interpolation. The error is minimized with respect to p' using a standard least squares solver.
+The vector field, $V$, defined above indicates a best guess of how any individual vertex, $p$, on a stroke polyline should move to match the consensus of all drawings. $V$ maps the discretized vector field onto the points $p$ using bilinear interpolation. 
 
 The naive approach is to take the points $(p_1, \ldots, p_k)$ comprising a stroke, along with their correction field samples $(V(p_1), \ldots, V(p_k))$, and directly move each point to arrive at $(p_1 + V(p_1), \ldots, p_k + V(p_k))$.  Unfortunately, noise and discontinuities in the vector field cause undesirable end results. More importantly, any {\em stylistic} choices such as intentional wiggles inherent in the original stroke would also be lost.  We hypothesize that the fat finger problem is likely to cause the input stroke to be off by a roughly constant displacement, while the original stroke shape is likely to represent the user's {\em intent}.
 
@@ -97,7 +98,7 @@ With $p_i$ representing input stroke sample locations for $i=1\ldots k$, $V_i$ a
 E =  \sum_{i=1}^k (p_i' - (p_i + V_i))^2 +  \alpha \sum_{i=2}^k ((p_i' - p_{i-1}') - (p_i - p_{i-1}))^2
 \end{equation}
 
-The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with respect to p' using a standard least squares solver.
+The first term represents the faithfulness to the correction vector field. The second term tries to maintain the shape of the stroke by enforcing that neighboring points move in sync. The $\alpha$ term weights the relative importance of the two terms. The error is minimized with respect to $p'$ using a standard least squares solver.
 
 
 
@@ -105,22 +106,14 @@ The first term represents the faithfulness to the correction vector field. The s
 
 A higher $\alpha$ value results in {\em stiffer} strokes in the sense that they maintain their shape instead of following variations in the vector field precisely. Aside from maintaining the {\em style} of the strokes, a high stiffness also helps avoid having part of a stroke pulled in one direction and another part pulled in another. This can happen especially when there are two closely spaced parallel lines in the consensus, such as the two sides of the nose, or the bottom and top of the lips. Unfortunately, such a very high $\alpha$ does not allow the strokes to adapt at all to the subtleties of the consensus drawing represented in the vector field.
 
-To achieve the dual goals of avoiding the two nearby stroke problem while balancing stiffness and style, we use a {\em continuation method}, performing three iterations of the solver described above. We begin with $\alpha=10$. This high stiffness value leads to an almost rigid transformation of the stroke to the most dominant consensus region. We then lower $\alpha$ to 7, and feed the previous result, $\hat{p}$ into the first error term, $(p_i' - (\hat{p}_i + V_i))$, while keeping the original terms for the latter half of the error measure, and solve the new system. We repeat this one final time with $\alpha=4$ to get our final result. The $\alpha$ values (10, 7, and 4) were chosen experimentally.
+To achieve the dual goals of avoiding the two nearby stroke problem while balancing stiffness and style, we use a {\em continuation method}, performing three iterations of the solver described above. We begin with $\alpha=10$. This high stiffness value leads to an almost rigid transformation of the stroke to the most dominant consensus region. We then lower $\alpha$ to 7, and feed the previous result, $\hat{p}$, into the first error term, $(p_i' - (\hat{p}_i + V_i))$, while keeping the original terms for the latter half of the error measure, and solve the new system. We repeat this one final time with $\alpha=4$ to get our final result. The $\alpha$ values (10, 7, and 4) were chosen experimentally.
 
 \subsubsection{Purely Stylistic Strokes}
 
 We also found that some strokes are purely stylistic in nature. For example, someone writes ``Obama'' above the president's head. We do not want such strokes to have parts pulled towards the consensus. We make a binary decision about whether the stroke is purely stylistic, in which case, we leave it alone. A stroke is defined to be purely stylistic if either of two conditions is met. Either the maximum vector length, $\max_i||V_i||$, is greater than $5mm$ (approximately $1/10^{th}$ the screen width), or a stroke's direction is mostly orthogonal to the vector field. The latter term is measured with the average of absolute cosines $\frac{1}{N}\sum_i||N(p_i - p_{i-1}) \cdot N(V(p_i))||\textrm{,}$ where $N(\cdot)$ normalizes vectors. If the average falls below 1/2, the stroke is considered purely stylistic. Examples of purely stylistic strokes can be seen in our video.
 
 
-\begin{figure*}[!t]
-  \centering%
-\includegraphics[width=7in]{./imagetable/kristenAndObama.pdf}
 
-%\vspace{-0.35in}
-  \caption{DrawAFriend users draw one of six celebrities (a). We use our database of hundreds of drawings per subject -- shown averaged in (b) -- to precompute a \emph{correction vector field} (c) enabling real-time drawing assistance on the iPhone. The magnitude of our vector field (d) reveals a consensus of artistic renderings strikingly different than what we could compute with automated methods, such as a canny edge detector (e).}
- % \vspace{-0.25in}
-  \label{fig:image-table}
-\end{figure*}
 
 
 %\begin{figure}
